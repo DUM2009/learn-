@@ -94,3 +94,64 @@ if(olhoConfirmar){
     });
 
 }
+import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+
+// LOGIN
+
+const entrarBtn = document.getElementById("entrarBtn");
+
+if(entrarBtn){
+
+    entrarBtn.addEventListener("click", () => {
+
+        const email = document.getElementById("emailLogin").value;
+        const password = document.getElementById("passwordLogin").value;
+
+
+        signInWithEmailAndPassword(auth, email, password)
+
+        .then(() => {
+
+            alert("Login feito com sucesso!");
+
+            window.location.href = "index.html";
+
+        })
+
+        .catch((erro) => {
+
+            alert("Email ou palavra-passe incorretos.");
+
+        });
+
+
+    });
+
+}
+
+
+// OLHO DO LOGIN
+
+const olhoLogin = document.getElementById("olhoLogin");
+
+if(olhoLogin){
+
+    olhoLogin.addEventListener("click", () => {
+
+        const campo = document.getElementById("passwordLogin");
+
+
+        if(campo.type === "password"){
+
+            campo.type = "text";
+
+        } else {
+
+            campo.type = "password";
+
+        }
+
+    });
+
+}

@@ -51,16 +51,22 @@ Continua a tua aventura científica.
 
 </p>
 
-<input type="email" placeholder="Email">
+<input id="emailLogin" type="email" placeholder="Email">
 
-<input type="password" placeholder="Palavra-passe">
 
-<button>
+<div class="password-container">
+
+<input id="passwordLogin" type="password" placeholder="Palavra-passe">
+
+<span id="olhoLogin" class="olho">👁</span>
+
+</div>
+
+<button id="entrarBtn">
 
 Entrar
 
 </button>
-
 <p>
 
 Ainda não tens conta?
@@ -76,7 +82,8 @@ Criar conta
 </div>
 
 </section>
-
+<script type="module" src="firebase.js"></script>
+<script type="module" src="script.js"></script>
 </body>
 
 </html>
