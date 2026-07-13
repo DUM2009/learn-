@@ -114,7 +114,7 @@ if(entrarBtn){
 
             alert("Login feito com sucesso!");
 
-            window.location.href = "index.html";
+            window.location.href = "perfil.html";
 
         })
 
