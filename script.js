@@ -48,3 +48,27 @@ alert(erro.message);
 });
 
 }
+window.mostrarPassword = function(){
+
+const campo = document.getElementById("password");
+
+if(campo.type === "password"){
+    campo.type = "text";
+}else{
+    campo.type = "password";
+}
+
+}
+
+
+window.mostrarConfirmacao = function(){
+
+const campo = document.getElementById("confirmarPassword");
+
+if(campo.type === "password"){
+    campo.type = "text";
+}else{
+    campo.type = "password";
+}
+
+}
