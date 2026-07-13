@@ -509,3 +509,105 @@ justify-content:space-between;
 margin-top:40px;
 
 }
+.about{
+
+max-width:900px;
+
+margin:auto;
+
+padding:80px 8%;
+
+}
+
+.about h1{
+
+font-size:3rem;
+
+margin-bottom:30px;
+
+}
+
+.about p{
+
+font-size:1.2rem;
+
+line-height:1.9;
+
+margin-bottom:25px;
+
+}
+.login-page{
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+height:80vh;
+
+}
+
+.login-box{
+
+background:white;
+
+padding:50px;
+
+border-radius:25px;
+
+width:420px;
+
+box-shadow:0 20px 40px rgba(0,0,0,.08);
+
+text-align:center;
+
+}
+
+.login-box h1{
+
+margin-bottom:20px;
+
+}
+
+.login-box p{
+
+margin-bottom:25px;
+
+color:#666;
+
+}
+
+.login-box input{
+
+width:100%;
+
+padding:18px;
+
+margin-bottom:20px;
+
+border:1px solid #ddd;
+
+border-radius:12px;
+
+font-size:1rem;
+
+}
+
+.login-box button{
+
+width:100%;
+
+margin-bottom:20px;
+
+}
+
+.login-box a{
+
+color:#1f8a5b;
+
+font-weight:bold;
+
+text-decoration:none;
+
+}
