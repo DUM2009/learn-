@@ -21,12 +21,17 @@ history.back();
 });
 
 }
-function criarConta(){
+import { auth } from "./firebase.js";
+import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+
+window.criarConta = function(){
 
 const email = document.querySelector("#email").value;
 const password = document.querySelector("#password").value;
 
-firebase.auth().createUserWithEmailAndPassword(email, password)
+
+createUserWithEmailAndPassword(auth, email, password)
 
 .then(() => {
 
