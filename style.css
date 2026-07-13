@@ -76,3 +76,42 @@ button:hover{
     background:#166a46;
     transform:translateY(-3px);
 }
+.hero{
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:80px 8%;
+gap:60px;
+}
+
+.hero-text{
+flex:1;
+}
+
+.hero-image{
+flex:1;
+display:flex;
+justify-content:center;
+}
+
+.hero-image img{
+width:100%;
+max-width:500px;
+border-radius:20px;
+}
+
+.hero h2{
+font-size:4rem;
+margin-bottom:25px;
+}
+
+.hero p{
+font-size:1.3rem;
+margin-bottom:35px;
+line-height:1.7;
+}
+
+button{
+padding:18px 35px;
+font-size:1.1rem;
+}
