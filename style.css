@@ -270,3 +270,97 @@ width:100%;
 }
 
 }
+.missions-page{
+
+padding:80px 8%;
+
+}
+
+.missions-page h1{
+
+font-size:3rem;
+margin-bottom:15px;
+
+}
+
+.missions-page p{
+
+font-size:1.2rem;
+color:#666;
+margin-bottom:50px;
+
+}
+
+.missions-grid{
+
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+gap:30px;
+
+}
+
+.mission-card{
+
+background:white;
+padding:30px;
+border-radius:20px;
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+transition:.3s;
+
+}
+
+.mission-card:hover{
+
+transform:translateY(-8px);
+
+}
+
+.mission-card h2{
+
+margin:20px 0;
+
+}
+
+.mission-card p{
+
+margin-bottom:25px;
+line-height:1.6;
+
+}
+
+.status{
+
+display:inline-block;
+padding:8px 15px;
+border-radius:20px;
+font-size:.9rem;
+font-weight:bold;
+
+}
+
+.available{
+
+background:#d9f8e5;
+color:#14844c;
+
+}
+
+.locked-status{
+
+background:#ececec;
+color:#777;
+
+}
+
+.locked{
+
+opacity:.75;
+
+}
+
+.locked button{
+
+background:#bdbdbd;
+cursor:not-allowed;
+
+}
