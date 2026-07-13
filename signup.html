@@ -55,7 +55,15 @@ Começa a tua aventura científica.
 
 <div class="password-box">
 
+<div class="password-container">
+
 <input id="password" type="password" placeholder="Criar palavra-passe">
+
+<span onclick="mostrarPassword()" class="olho">
+👁
+</span>
+
+</div>
 
 <button type="button" onclick="mostrarPassword()">
 👁
@@ -66,7 +74,15 @@ Começa a tua aventura científica.
 
 <div class="password-box">
 
+<div class="password-container">
+
 <input id="confirmarPassword" type="password" placeholder="Confirmar palavra-passe">
+
+<span onclick="mostrarConfirmacao()" class="olho">
+👁
+</span>
+
+</div>
 
 <button type="button" onclick="mostrarConfirmacao()">
 👁
@@ -75,7 +91,7 @@ Começa a tua aventura científica.
 </div>
 
 
-<button onclick="criarConta()">
+<button id="criarContaBtn">
 Criar conta
 </button>
 

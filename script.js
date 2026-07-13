@@ -72,3 +72,26 @@ if(campo.type === "password"){
 }
 
 }
+const criarContaBtn = document.getElementById("criarContaBtn");
+
+if(criarContaBtn){
+
+criarContaBtn.addEventListener("click", criarConta);
+
+}
+window.mostrarPassword = function(){
+
+const password = document.getElementById("password");
+
+password.type = password.type === "password" ? "text" : "password";
+
+}
+
+
+window.mostrarConfirmacao = function(){
+
+const password = document.getElementById("confirmarPassword");
+
+password.type = password.type === "password" ? "text" : "password";
+
+}

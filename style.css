@@ -611,3 +611,23 @@ font-weight:bold;
 text-decoration:none;
 
 }
+.password-container{
+    position:relative;
+    width:100%;
+}
+
+
+.password-container input{
+    width:100%;
+    padding-right:40px;
+}
+
+
+.olho{
+    position:absolute;
+    right:15px;
+    top:50%;
+    transform:translateY(-50%);
+    cursor:pointer;
+    font-size:14px;
+}
