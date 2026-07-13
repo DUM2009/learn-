@@ -1,97 +1,95 @@
-const nextButton = document.getElementById("nextButton");
-
-if(nextButton){
-
-nextButton.addEventListener("click",()=>{
-
-alert("Na próxima versão este botão muda para o cartão seguinte.");
-
-});
-
-}
-
-const backButton = document.getElementById("backButton");
-
-if(backButton){
-
-backButton.addEventListener("click",()=>{
-
-history.back();
-
-});
-
-}
 import { auth } from "./firebase.js";
 import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 
-window.criarConta = function(){
+// Botão criar conta
 
-const email = document.querySelector("#email").value;
-const password = document.querySelector("#password").value;
-
-
-createUserWithEmailAndPassword(auth, email, password)
-
-.then(() => {
-
-alert("Conta criada com sucesso!");
-
-window.location.href="login.html";
-
-})
-
-.catch((erro)=>{
-
-alert(erro.message);
-
-});
-
-}
-window.mostrarPassword = function(){
-
-const campo = document.getElementById("password");
-
-if(campo.type === "password"){
-    campo.type = "text";
-}else{
-    campo.type = "password";
-}
-
-}
-
-
-window.mostrarConfirmacao = function(){
-
-const campo = document.getElementById("confirmarPassword");
-
-if(campo.type === "password"){
-    campo.type = "text";
-}else{
-    campo.type = "password";
-}
-
-}
 const criarContaBtn = document.getElementById("criarContaBtn");
 
 if(criarContaBtn){
 
-criarContaBtn.addEventListener("click", criarConta);
+    criarContaBtn.addEventListener("click", () => {
+
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        const confirmarPassword = document.getElementById("confirmarPassword").value;
+
+
+        if(password !== confirmarPassword){
+
+            alert("As palavras-passe não coincidem.");
+            return;
+
+        }
+
+
+        createUserWithEmailAndPassword(auth, email, password)
+
+        .then(() => {
+
+            alert("Conta criada com sucesso!");
+
+            window.location.href = "login.html";
+
+        })
+
+        .catch((erro) => {
+
+            alert(erro.message);
+
+        });
+
+
+    });
 
 }
-window.mostrarPassword = function(){
 
-const password = document.getElementById("password");
 
-password.type = password.type === "password" ? "text" : "password";
+// Mostrar palavra-passe
+
+const olhoPassword = document.getElementById("olhoPassword");
+
+if(olhoPassword){
+
+    olhoPassword.addEventListener("click", () => {
+
+        const campo = document.getElementById("password");
+
+        if(campo.type === "password"){
+
+            campo.type = "text";
+
+        } else {
+
+            campo.type = "password";
+
+        }
+
+    });
 
 }
 
 
-window.mostrarConfirmacao = function(){
+// Mostrar confirmação da palavra-passe
 
-const password = document.getElementById("confirmarPassword");
+const olhoConfirmar = document.getElementById("olhoConfirmar");
 
-password.type = password.type === "password" ? "text" : "password";
+if(olhoConfirmar){
+
+    olhoConfirmar.addEventListener("click", () => {
+
+        const campo = document.getElementById("confirmarPassword");
+
+        if(campo.type === "password"){
+
+            campo.type = "text";
+
+        } else {
+
+            campo.type = "password";
+
+        }
+
+    });
 
 }
