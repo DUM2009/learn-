@@ -9,32 +9,20 @@ const emailAluno = document.getElementById("emailAluno");
 const logoutBtn = document.getElementById("logoutBtn");
 
 onAuthStateChanged(auth, (user) => {
-
     if (user) {
-
         nomeAluno.textContent = user.email.split("@")[0];
         emailAluno.textContent = user.email;
-
     } else {
-
         window.location.href = "login.html";
-
     }
-
 });
 
 logoutBtn.addEventListener("click", () => {
-
     signOut(auth)
         .then(() => {
-
-            window.location.href = "login.html";
-
+            window.location.href = "index.html";
         })
         .catch((erro) => {
-
             alert("Erro ao terminar sessão: " + erro.message);
-
         });
-
 });

@@ -2,96 +2,48 @@
 <html lang="pt">
 
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Missão | Learn+</title>
-
-<link rel="stylesheet" href="style.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Missão | Explore+</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<header>
+    <header>
+        <div class="logo">Explore+</div>
+        <nav>
+            <a href="index.html">Início</a>
+            <a href="missions.html">Missões</a>
+            <a href="about.html">Sobre</a>
+        </nav>
+    </header>
 
-<div class="logo">
+    <section class="lesson">
+        <div class="progress-bar">
+            <div class="progress"></div>
+        </div>
 
-Learn+
+        <div class="lesson-card">
+            <span class="lesson-tag">Missão 1</span>
+            <h1>🧬 O Código da Vida</h1>
+            <p class="question">Porque será que duas pessoas nunca têm exatamente o mesmo ADN?</p>
+            <img src="https://images.unsplash.com/photo-1532187643603-ba119ca4109e?w=900" alt="DNA">
+            <p class="content">
+                O ADN contém a informação genética necessária para a síntese de proteínas e para o funcionamento, desenvolvimento e reprodução dos seres vivos. Essa informação é transmitida de geração em geração.
+                <br><br>
+                O ADN é uma molécula muito complexa, composta por uma sequência única de bases azotadas (Adenina, Timina, Guanina e Citosina). Embora todos os seres humanos partilhem cerca de 99,9% do ADN, pequenas diferenças tornam cada pessoa única.
+                <br><br>
+                Estas diferenças, chamadas de mutações, ocorrem naturalmente durante a reprodução e são o que nos torna diferentes um do outro!
+            </p>
+            <div class="buttons">
+                <button onclick="window.location.href='missions.html'">Voltar às Missões</button>
+                <button onclick="window.location.href='quiz.html'">Fazer Quiz</button>
+            </div>
+        </div>
+    </section>
 
-</div>
-
-<nav>
-
-<a href="index.html">Início</a>
-<a href="missions.html">Missões</a>
-<a href="profile.html">Perfil</a>
-
-</nav>
-
-</header>
-
-<section class="lesson">
-
-<div class="progress-bar">
-
-<div class="progress"></div>
-
-</div>
-
-<div class="lesson-card">
-
-<span class="lesson-tag">
-
-Missão 1
-
-</span>
-
-<h1>
-
-🧬 O Código da Vida
-
-</h1>
-
-<p class="question">
-
-Porque será que duas pessoas nunca têm exatamente o mesmo ADN?
-
-</p>
-
-<img
-src="https://images.unsplash.com/photo-1532187643603-ba119ca4109e?w=900"
-alt="DNA">
-
-<p class="content">
-
-O ADN contém a informação genética necessária para a síntese de proteínas e para o funcionamento, desenvolvimento e reprodução dos seres vivos. Essa informação é transmitida de geração em geração, assegurando a continuidade das espécies.
-Embora todos os seres humanos partilhem cerca de 99,9% do ADN, pequenas diferenças tornam cada pessoa única.
-
-</p>
-
-<div class="buttons">
-
-<button id="backButton">
-
-Anterior
-
-</button>
-
-<button id="nextButton">
-
-Seguinte
-
-</button>
-
-</div>
-
-</div>
-
-</section>
-
-<script src="script.js"></script>
+    <script type="module" src="auth.js"></script>
 
 </body>
 

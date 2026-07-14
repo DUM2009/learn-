@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz | Explore+</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .quiz-container {
+            max-width: 700px;
+            margin: 100px auto;
+            padding: 40px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,.1);
+        }
+        .quiz-container h1 {
+            margin-bottom: 30px;
+            color: #1f8a5b;
+        }
+        .question {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f5f9f7;
+            border-radius: 12px;
+        }
+        .question h3 {
+            margin-bottom: 15px;
+        }
+        .option {
+            margin: 10px 0;
+            padding: 12px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: .3s;
+        }
+        .option:hover {
+            border-color: #1f8a5b;
+            background: #f5f9f7;
+        }
+        .option input[type="radio"] {
+            margin-right: 10px;
+        }
+        .quiz-button {
+            width: 100%;
+            padding: 15px;
+            margin-top: 20px;
+            background: #1f8a5b;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+        .quiz-button:hover {
+            background: #166a46;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">Explore+</div>
+        <nav>
+            <a href="index.html">Início</a>
+            <a href="missions.html">Missões</a>
+            <a href="about.html">Sobre</a>
+        </nav>
+    </header>
+
+    <div class="quiz-container">
+        <h1>🧬 Quiz: O Código da Vida</h1>
+        
+        <div class="question">
+            <h3>Questão 1: O que é ADN?</h3>
+            <label class="option">
+                <input type="radio" name="q1" value="a"> A) Ácido desoxirribonucleico que contém informação genética
+            </label>
+            <label class="option">
+                <input type="radio" name="q1" value="b"> B) Uma proteína que ajuda na digestão
+            </label>
+            <label class="option">
+                <input type="radio" name="q1" value="c"> C) Uma vitamina essencial para o corpo
+            </label>
+        </div>
+
+        <div class="question">
+            <h3>Questão 2: Quanto por cento de ADN compartilham dois seres humanos?</h3>
+            <label class="option">
+                <input type="radio" name="q2" value="a"> A) 50%
+            </label>
+            <label class="option">
+                <input type="radio" name="q2" value="b"> B) 99.9%
+            </label>
+            <label class="option">
+                <input type="radio" name="q2" value="c"> C) 75%
+            </label>
+        </div>
+
+        <div class="question">
+            <h3>Questão 3: Onde é armazenado o ADN nas células?</h3>
+            <label class="option">
+                <input type="radio" name="q3" value="a"> A) No citoplasma
+            </label>
+            <label class="option">
+                <input type="radio" name="q3" value="b"> B) No núcleo
+            </label>
+            <label class="option">
+                <input type="radio" name="q3" value="c"> C) Na mitocôndria
+            </label>
+        </div>
+
+        <button class="quiz-button" onclick="verificarRespostas()">Submeter Respostas</button>
+        <button class="quiz-button" onclick="window.location.href='missions.html'" style="background: #6c757d; margin-top: 10px;">Voltar às Missões</button>
+    </div>
+
+    <script type="module" src="auth.js"></script>
+    <script>
+        function verificarRespostas() {
+            const q1 = document.querySelector('input[name="q1"]:checked');
+            const q2 = document.querySelector('input[name="q2"]:checked');
+            const q3 = document.querySelector('input[name="q3"]:checked');
+
+            if (!q1 || !q2 || !q3) {
+                alert('Por favor, responde a todas as questões!');
+                return;
+            }
+
+            let corretas = 0;
+            if (q1.value === 'a') corretas++;
+            if (q2.value === 'b') corretas++;
+            if (q3.value === 'b') corretas++;
+
+            const percentagem = (corretas / 3) * 100;
+            alert(`Pontuação: ${corretas}/3 (${percentagem.toFixed(0)}%)\n\nRespostas corretas: 1-A, 2-B, 3-B`);
+        }
+    </script>
+
+</body>
+
+</html>

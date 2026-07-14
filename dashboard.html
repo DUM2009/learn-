@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Explore+</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">Explore+</div>
+        <nav>
+            <a href="index.html">Início</a>
+            <a href="missions.html">Missões</a>
+            <a href="about.html">Sobre</a>
+        </nav>
+    </header>
+
+    <section class="dashboard">
+        <div class="perfil-card">
+            <div class="avatar">📊</div>
+            <h2>Dashboard</h2>
+            <p>Bem-vindo ao teu painel de controle!</p>
+        </div>
+
+        <div class="xp-card">
+            <h2>Estatísticas</h2>
+            <p>Acompanha o teu progresso</p>
+            <div class="barra">
+                <div class="progresso" style="width: 45%;"></div>
+            </div>
+            <p style="margin-top: 15px;">45 / 100 Pontos</p>
+        </div>
+
+        <div class="conquistas-card">
+            <h2>🎯 Metas</h2>
+            <p>Define os teus objetivos de aprendizagem</p>
+        </div>
+
+        <div class="acoes-card">
+            <h2>📚 Ações</h2>
+            <button onclick="window.location.href='missions.html'">Ver Missões</button>
+            <button onclick="window.location.href='perfil.html'">Ir para Perfil</button>
+        </div>
+    </section>
+
+    <script type="module" src="auth.js"></script>
+</body>
+
+</html>
