@@ -87,9 +87,9 @@
         fill="none" stroke="url(#helixGreen)" stroke-width="3" stroke-linecap="round"/>
   <path d="M 80,120 C 85,105 105,105 110,120 C 115,135 135,135 140,120 C 145,105 165,105 170,120" 
         fill="none" stroke="url(#helixBlue)" stroke-width="3" stroke-linecap="round"/>
-  <line x1="95" y1="112" x2="95" y2="128" stroke="#FF6B9D" stroke-width="2"/>
-  <line x1="95" y1="120" x2="155" y2="120" stroke="#FF6B9D" stroke-width="2.5" opacity="0.6"/>
-  <line x1="125" y1="112" x2="125" y2="128" stroke="#5F27CD" stroke-width="2"/>
+  <line x1="95" y1="109" x2="95" y2="131" stroke="#FF6B9D" stroke-width="2"/>
+  <line x1="125" y1="109" x2="125" y2="131" stroke="#5F27CD" stroke-width="2"/>
+  <line x1="155" y1="109" x2="155" y2="131" stroke="#00D2D3" stroke-width="2"/>
 
   <!-- Small DNA helix on the right side -->
   <path d="M 430,380 C 435,395 455,395 460,380 C 465,365 485,365 490,380 C 495,395 515,395 520,380" 
