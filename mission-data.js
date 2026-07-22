@@ -30,7 +30,7 @@ const missionData = {
                     </div>
 
                     <div class="illustration-placeholder">
-                        <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600" alt="Biology" style="width: 100%; border-radius: 12px; margin: 20px 0;">
+                        <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600" alt="Biology" style="width: 100%; border-radius: 12px; margin: 20px 0;">
                     </div>
 
                     <div class="learning-points">
@@ -111,7 +111,7 @@ const missionData = {
                     </div>
 
                     <div class="illustration-placeholder">
-                        <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600" alt="Nature" style="width: 100%; border-radius: 12px; margin: 20px 0;">
+                        <img src="https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?w=600" alt="Living Organisms" style="width: 100%; border-radius: 12px; margin: 20px 0;">
                     </div>
 
                     <div class="info-card">
@@ -183,7 +183,7 @@ const missionData = {
                     </div>
 
                     <div class="illustration-placeholder">
-                        <img src="https://images.unsplash.com/photo-1530731141207-5c69c3c1ff1f?w=600" alt="Life" style="width: 100%; border-radius: 12px; margin: 20px 0;">
+                        <img src="https://images.unsplash.com/photo-1517457373614-b7152f800fd1?w=600" alt="Life" style="width: 100%; border-radius: 12px; margin: 20px 0;">
                     </div>
                 </div>
             `,
@@ -239,7 +239,7 @@ const missionData = {
                     </div>
 
                     <div class="illustration-placeholder">
-                        <img src="https://images.unsplash.com/photo-1530887191143-2f1423d3f90b?w=600" alt="Cells" style="width: 100%; border-radius: 12px; margin: 20px 0;">
+                        <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600" alt="Cells" style="width: 100%; border-radius: 12px; margin: 20px 0;">
                     </div>
 
                     <div class="info-card">
@@ -268,240 +268,72 @@ const missionData = {
             }
         },
         {
-    id: "dna-genetic-code",
-    title: "🧬 DNA: O Código da Vida",
-    icon: "🧬",
-    xpReward: 100,
-
-    content: `
-        <div class="section-content">
-
-            <h2>🧬 DNA: O Código da Vida</h2>
-
-            <p>
-                O DNA é a molécula que guarda todas as instruções necessárias
-                para construir e manter um organismo vivo.
-            </p>
-
-
-            <div class="info-card">
-
-                <h3>O que é o DNA?</h3>
-
-                <p>
-                    DNA significa <strong>Ácido Desoxirribonucleico</strong>.
-                    É uma molécula presente nas células que contém a informação
-                    genética dos seres vivos.
-                </p>
-
-                <p>
-                    Podemos imaginar o DNA como um <strong>manual de instruções</strong>
-                    que diz às células como devem funcionar.
-                </p>
-
-            </div>
-
-
-
-            <div class="info-card">
-
-                <h3>🪜 A estrutura do DNA</h3>
-
-                <p>
-                    O DNA tem uma forma muito especial chamada
-                    <strong>dupla hélice</strong>.
-                </p>
-
-                <p>
-                    Esta estrutura parece uma escada torcida:
-                </p>
-
-                <ul>
-
-                    <li>
-                        Os lados da escada são feitos de açúcar e fosfato.
-                    </li>
-
-                    <li>
-                        Os degraus são formados por pares de bases nitrogenadas.
-                    </li>
-
-                </ul>
-
-            </div>
-
-
-
-            <div class="dna-facts">
-
-                <h3>🔤 As quatro letras da vida</h3>
-
-                <p>
-                    O código genético é formado por quatro bases:
-                </p>
-
-                <div class="fact-grid">
-
-                    <div class="fact-item">
-                        <h4>A</h4>
-                        <p>Adenina</p>
+            id: "dna-genetic-code",
+            title: "DNA: The Genetic Code",
+            icon: "🧬",
+            xpReward: 100,
+            content: `
+                <div class="section-content">
+                    <h2>DNA: The Genetic Code 🧬</h2>
+                    <p>DNA is the molecule that contains the instructions for creating and maintaining all living organisms.</p>
+                    
+                    <div class="info-card">
+                        <h3>What is DNA?</h3>
+                        <p><strong>DNA (Deoxyribonucleic Acid)</strong> is a molecule that carries the genetic code for all life.</p>
+                        <p>Think of it like a <strong>instruction manual</strong> that tells your cells how to work.</p>
                     </div>
 
-
-                    <div class="fact-item">
-                        <h4>T</h4>
-                        <p>Timina</p>
+                    <div class="dna-facts">
+                        <h3>Key Facts About DNA:</h3>
+                        <div class="fact-grid">
+                            <div class="fact-item">
+                                <h4>Structure</h4>
+                                <p>DNA is shaped like a <strong>double helix</strong> (twisted ladder)</p>
+                            </div>
+                            <div class="fact-item">
+                                <h4>Location</h4>
+                                <p>Found in the <strong>nucleus</strong> of cells</p>
+                            </div>
+                            <div class="fact-item">
+                                <h4>Information</h4>
+                                <p>Contains <strong>genes</strong> that code for proteins</p>
+                            </div>
+                            <div class="fact-item">
+                                <h4>Inheritance</h4>
+                                <p>Passed from <strong>parents to children</strong></p>
+                            </div>
+                        </div>
                     </div>
 
-
-                    <div class="fact-item">
-                        <h4>C</h4>
-                        <p>Citosina</p>
+                    <div class="illustration-placeholder">
+                        <img src="https://images.unsplash.com/photo-1530731141207-5c69c3c1ff1f?w=600" alt="DNA" style="width: 100%; border-radius: 12px; margin: 20px 0;">
                     </div>
 
-
-                    <div class="fact-item">
-                        <h4>G</h4>
-                        <p>Guanina</p>
+                    <div class="info-card">
+                        <h3>Did You Know?</h3>
+                        <ul>
+                            <li>Your DNA is unique to you (like a fingerprint)</li>
+                            <li>You share 99.9% of your DNA with other humans</li>
+                            <li>You also share DNA with all other living things!</li>
+                            <li>Each cell in your body (except red blood cells) contains your complete DNA</li>
+                        </ul>
                     </div>
-
                 </div>
-
-                <p>
-                    Estas bases juntam-se sempre da mesma forma:
-                    <strong>A com T</strong> e <strong>C com G</strong>.
-                </p>
-
-            </div>
-
-
-
-            <div class="info-card">
-
-                <h3>🧬 Genes: pequenas instruções dentro do DNA</h3>
-
-                <p>
-                    Um gene é uma pequena parte do DNA que contém instruções
-                    para produzir uma determinada característica.
-                </p>
-
-                <p>
-                    Por exemplo, alguns genes influenciam características como:
-                </p>
-
-                <ul>
-
-                    <li>Cor dos olhos</li>
-
-                    <li>Cor do cabelo</li>
-
-                    <li>Altura</li>
-
-                    <li>Algumas características do organismo</li>
-
-                </ul>
-
-            </div>
-
-
-
-            <div class="info-card">
-
-                <h3>🏭 DNA → Proteínas</h3>
-
-                <p>
-                    As células utilizam a informação do DNA para produzir
-                    proteínas.
-                </p>
-
-                <p>
-                    As proteínas são essenciais porque ajudam a construir
-                    estruturas do corpo e permitem que as células funcionem.
-                </p>
-
-                <p>
-                    O processo pode ser resumido assim:
-                </p>
-
-                <h3>
-                    🧬 DNA → RNA → Proteína
-                </h3>
-
-            </div>
-
-
-
-            <div class="info-card">
-
-                <h3>✨ Curiosidades sobre o DNA</h3>
-
-                <ul>
-
-                    <li>
-                        Se todo o DNA de uma célula humana fosse esticado,
-                        teria cerca de 2 metros de comprimento.
-                    </li>
-
-                    <li>
-                        O teu DNA é único, como uma impressão digital.
-                    </li>
-
-                    <li>
-                        Partilhamos cerca de 99,9% do DNA com outros seres humanos.
-                    </li>
-
-                    <li>
-                        O DNA está presente em praticamente todas as células do corpo.
-                    </li>
-
-                </ul>
-
-            </div>
-
-
-        </div>
-    `,
-
-
-    quiz: {
-        question: "Quais são as quatro bases do DNA?",
-
-        options: [
-
-            {
-                text: "Adenina, Timina, Citosina e Guanina",
-                correct: true
-            },
-
-            {
-                text: "Oxigénio, Carbono, Hidrogénio e Azoto",
-                correct: false
-            },
-
-            {
-                text: "Célula, Núcleo, Gene e Proteína",
-                correct: false
-            },
-
-            {
-                text: "Água, Açúcar, Sal e Minerais",
-                correct: false
+            `,
+            quiz: {
+                question: "What does DNA do?",
+                options: [
+                    { text: "Provides energy to cells", correct: false },
+                    { text: "Carries genetic instructions for life", correct: true },
+                    { text: "Fights infections", correct: false },
+                    { text: "Moves cells around", correct: false }
+                ],
+                feedback: {
+                    correct: "Correct! DNA contains the instructions that tell your cells how to build and maintain your body.",
+                    incorrect: "Think about what we learned: DNA is like an instruction manual for life."
+                }
             }
-
-        ],
-
-        feedback: {
-
-            correct:
-            "Excelente! As quatro bases do DNA são A, T, C e G, e formam o código genético.",
-
-            incorrect:
-            "Quase! Lembra-te: o DNA é formado pelas bases Adenina, Timina, Citosina e Guanina."
-
-        }
-
-    }
-},
+        },
         {
             id: "why-biology-matters",
             title: "Why Biology Matters",
@@ -549,7 +381,7 @@ const missionData = {
                     </div>
 
                     <div class="illustration-placeholder">
-                        <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600" alt="Science" style="width: 100%; border-radius: 12px; margin: 20px 0;">
+                        <img src="https://images.unsplash.com/photo-1576091160647-112b886d0120?w=600" alt="Science" style="width: 100%; border-radius: 12px; margin: 20px 0;">
                     </div>
 
                     <div class="info-card">

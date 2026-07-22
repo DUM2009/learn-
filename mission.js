@@ -56,6 +56,7 @@ class MissionSystem {
         this.renderHeader();
         this.renderSections();
         this.updateProgressBar();
+        window.scrollTo(0, 0);
     }
 
     /**
@@ -164,7 +165,7 @@ class MissionSystem {
         const feedbackEl = document.createElement('div');
         feedbackEl.className = `quiz-feedback ${isCorrect ? 'feedback-correct' : 'feedback-incorrect'}`;
         feedbackEl.innerHTML = `
-            <span class="feedback-icon">${isCorrect ? '✓' : '✗'}</span>
+            <span class="feedback-icon">${isCorrect ? '✓' : '✕'}</span>
             <span class="feedback-text">${section.quiz.feedback[isCorrect ? 'correct' : 'incorrect']}</span>
         `;
         quizContainer.appendChild(feedbackEl);
@@ -186,10 +187,10 @@ class MissionSystem {
                 
                 this.saveProgress();
                 
-                // Refresh UI after short delay
+                // Refresh UI after delay - THIS MAKES STUDENT GO TO NEXT SECTION
                 setTimeout(() => {
                     this.render();
-                }, 800);
+                }, 1500);
             }
         }
     }
@@ -382,11 +383,11 @@ class MissionSystem {
                             <span class="achievement-name">Biology Basics</span>
                         </div>
                         <div class="achievement-item ${percentage >= 80 ? 'unlocked' : 'locked'}">
-                            <span class="achievement-icon">💯</span>
+                            <span class="achievement-icon">🎯</span>
                             <span class="achievement-name">Perfect Scholar</span>
                         </div>
                         <div class="achievement-item ${percentage >= 90 ? 'unlocked' : 'locked'}">
-                            <span class="achievement-icon">🌟</span>
+                            <span class="achievement-icon">⭐</span>
                             <span class="achievement-name">Expert Biologist</span>
                         </div>
                     </div>
