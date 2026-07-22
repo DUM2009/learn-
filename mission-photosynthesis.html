@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fotossíntese | Explore+</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="mission-styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">Explore+</div>
+        <nav>
+            <a href="index.html">Início</a>
+            <a href="missions.html">Missões</a>
+            <a href="about.html">Sobre</a>
+        </nav>
+    </header>
+
+    <!-- Main Mission Container -->
+    <div class="mission-container">
+        <!-- Progress Section -->
+        <div class="mission-header">
+            <div class="header-content">
+                <button class="back-button" onclick="window.location.href='missions.html'">&larr; Back</button>
+                <div class="mission-title-section">
+                    <h1 id="missionTitle"></h1>
+                    <p id="missionDescription"></p>
+                </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="progress-section">
+                <div class="progress-info">
+                    <span class="progress-label">Progress</span>
+                    <span class="progress-percent" id="progressPercent">0%</span>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+                <div class="section-counter">
+                    <span id="sectionCounter">0/3 Sections</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Area -->
+        <div class="mission-content">
+            <!-- Sections Container -->
+            <div class="sections-wrapper" id="sectionsWrapper"></div>
+        </div>
+    </div>
+
+    <!-- XP Toast Notification -->
+    <div class="xp-toast" id="xpToast">
+        <span class="xp-icon">⭐</span>
+        <span class="xp-text" id="xpText">+50 XP</span>
+    </div>
+
+    <!-- Correct Answer Animation -->
+    <div class="correct-animation" id="correctAnimation">
+        <div class="celebration">
+            <div class="confetti">🎉</div>
+            <div class="confetti">✨</div>
+            <div class="confetti">🎊</div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="auth.js"></script>
+    <script src="mission-data-photosynthesis.js"></script>
+    <script src="mission.js"></script>
+    <script>
+        // Override startFinalQuiz to redirect to the gold test page instead of in-page quiz
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof missionSystem !== 'undefined' && missionData.goldTestUrl) {
+                missionSystem.startFinalQuiz = function () {
+                    window.location.href = missionData.goldTestUrl;
+                };
+            }
+        });
+    </script>
+</body>
+</html>
