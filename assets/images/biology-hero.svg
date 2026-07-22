@@ -96,6 +96,9 @@
         fill="none" stroke="url(#helixGreen)" stroke-width="3" stroke-linecap="round"/>
   <path d="M 430,380 C 435,365 455,365 460,380 C 465,395 485,395 490,380 C 495,365 515,365 520,380" 
         fill="none" stroke="url(#helixBlue)" stroke-width="3" stroke-linecap="round"/>
+  <line x1="445" y1="369" x2="445" y2="391" stroke="#FF9F43" stroke-width="2"/>
+  <line x1="475" y1="369" x2="475" y2="391" stroke="#54A0FF" stroke-width="2"/>
+  <line x1="505" y1="369" x2="505" y2="391" stroke="#5F27CD" stroke-width="2"/>
 
   <!-- Explore+ label badge -->
   <rect x="430" y="30" width="140" height="42" rx="21" fill="#1f8a5b" opacity="0.9"/>

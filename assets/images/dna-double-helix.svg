@@ -72,7 +72,6 @@
 <line x1="272.1" y1="428.6" x2="127.9" y2="428.6" stroke="#5F27CD" stroke-width="3" stroke-linecap="round" opacity="0.8"/>
 <circle cx="272.1" cy="428.6" r="5" fill="#5F27CD" opacity="0.9"/>
 <circle cx="127.9" cy="428.6" r="5" fill="#5F27CD" opacity="0.9"/>
-<circle cx="200.0" cy="460.0" r="6" fill="#00D2D3" opacity="0.9"/>
 
   
   <!-- Strand 1 (green) -->
