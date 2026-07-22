@@ -30,7 +30,7 @@ const missionData = {
                     </div>
 
                     <div class="illustration-placeholder">
-                        <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600" alt="Biology" style="width: 100%; border-radius: 12px; margin: 20px 0;">
+                        <img src="assets/images/biology-hero.svg" alt="Ilustração de biologia: célula com ADN e elementos científicos" style="width: 100%; border-radius: 12px; margin: 20px 0;">
                     </div>
 
                     <div class="learning-points">
@@ -306,7 +306,7 @@ const missionData = {
                     </div>
 
                     <div class="illustration-placeholder">
-                        <img src="https://images.unsplash.com/photo-1530731141207-5c69c3c1ff1f?w=600" alt="DNA" style="width: 100%; border-radius: 12px; margin: 20px 0;">
+                        <img src="assets/images/dna-double-helix.svg" alt="Dupla hélice do ADN - estrutura da molécula que contém a informação genética" style="width: 100%; border-radius: 12px; margin: 20px 0;">
                     </div>
 
                     <div class="info-card">
