@@ -1,14 +1,40 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 420" width="960" height="420">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1536 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Sol a iluminar membrana de tilacoide</title>
+  <desc id="desc">Ilustração fotossintética verde com luz intensa, membrana ondulada e partículas luminosas.</desc>
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#eef9f5"/>
-      <stop offset="100%" stop-color="#dff3e9"/>
+      <stop offset="0%" stop-color="#0a2a11"/>
+      <stop offset="55%" stop-color="#164a1d"/>
+      <stop offset="100%" stop-color="#0d3317"/>
+    </linearGradient>
+    <radialGradient id="sunGlow" cx="0" cy="0" r="1" gradientTransform="translate(0.02 0.02) scale(0.9)">
+      <stop offset="0%" stop-color="#fff7b0" stop-opacity="1"/>
+      <stop offset="35%" stop-color="#ffd84d" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#ffd84d" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="membrane" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#c5ff70"/>
+      <stop offset="100%" stop-color="#4c9e18"/>
+    </linearGradient>
+    <linearGradient id="membraneDark" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2d6f10"/>
+      <stop offset="100%" stop-color="#18480a"/>
     </linearGradient>
   </defs>
-  <rect width="960" height="420" rx="26" fill="url(#bg)"/>
-  <rect x="40" y="50" width="880" height="320" rx="20" fill="#ffffff" stroke="#b8dfca" stroke-width="3"/>
-  <circle cx="135" cy="210" r="52" fill="#37d67a" opacity="0.25"/>
-  <circle cx="825" cy="210" r="52" fill="#1f8a5b" opacity="0.2"/>
-  <text x="480" y="195" text-anchor="middle" font-family="Arial, sans-serif" font-size="44" fill="#1f8a5b" font-weight="700">Fotossíntese</text>
-  <text x="480" y="250" text-anchor="middle" font-family="Arial, sans-serif" font-size="32" fill="#2f4f3d">M1 HOOK</text>
+  <rect width="1536" height="1024" fill="url(#bg)"/>
+  <circle cx="0" cy="0" r="430" fill="url(#sunGlow)"/>
+  <g opacity="0.9">
+    <path d="M0 0 C70 220 170 360 380 560" stroke="#ffe16a" stroke-width="10" stroke-linecap="round" opacity="0.5"/>
+    <path d="M0 0 C120 240 260 390 530 680" stroke="#ffd84d" stroke-width="6" stroke-linecap="round" opacity="0.55"/>
+    <path d="M0 0 C170 260 360 430 680 780" stroke="#fff18d" stroke-width="3" stroke-linecap="round" opacity="0.4"/>
+    <circle cx="130" cy="250" r="16" fill="#ffe56d"/>
+    <circle cx="260" cy="360" r="14" fill="#ffef8d"/>
+    <circle cx="395" cy="505" r="18" fill="#ffe56d"/>
+    <circle cx="525" cy="650" r="13" fill="#fff0a5"/>
+    <circle cx="650" cy="775" r="15" fill="#ffd84d"/>
+  </g>
+  <path d="M60 720 C220 650, 360 610, 520 560 C690 505, 820 455, 1000 420 C1180 385, 1340 380, 1510 395 L1536 1024 L0 1024 L0 790 C18 765 35 742 60 720Z" fill="url(#membrane)" opacity="0.9"/>
+  <path d="M80 735 C230 670, 380 635, 540 585 C705 535, 845 490, 1015 458 C1180 427, 1340 422, 1510 438" fill="none" stroke="#d8ff9d" stroke-width="18" stroke-linecap="round" opacity="0.55"/>
+  <path d="M80 760 C235 695, 385 660, 548 612 C715 563, 850 520, 1020 488 C1190 455, 1348 452, 1510 468" fill="none" stroke="#2f6f10" stroke-width="16" stroke-linecap="round" opacity="0.65"/>
+  <path d="M85 780 C240 718, 392 680, 556 632 C722 583, 858 542, 1030 510 C1198 480, 1354 478, 1512 492" fill="none" stroke="url(#membraneDark)" stroke-width="10" stroke-linecap="round" opacity="0.9"/>
 </svg>
