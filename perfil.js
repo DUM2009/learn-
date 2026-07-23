@@ -69,7 +69,7 @@ window.addEventListener('storage', () => {
     }
 });
 
-window.addEventListener(window.ProfileXP.PROFILE_UPDATE_EVENT, () => {
+window.addEventListener('explore:profile-updated', () => {
     if (auth.currentUser) {
         renderProfileXP(auth.currentUser);
     }

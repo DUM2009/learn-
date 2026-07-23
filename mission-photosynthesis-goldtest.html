@@ -408,8 +408,8 @@
                         window.ProfileXP.buildRewardSource('challenge', goldTestData.id)
                     )
                     : null;
-                const awardedXP = reward?.xpAdded || 0;
-                const xpMessage = awardedXP > 0
+                const awardedXP = reward?.xpAdded ?? 0;
+                const xpMessage = reward?.awarded
                     ? `Ganhaste +${awardedXP} XP no teu perfil.`
                     : 'Este desafio já tinha atribuído XP ao teu perfil.';
 
