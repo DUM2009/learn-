@@ -20,6 +20,8 @@
 
     <!-- Main Mission Container -->
     <div class="mission-container">
+        <div id="missionNotice" class="locked-message" style="display:none; margin-bottom:16px;"></div>
+
         <!-- Progress Section -->
         <div class="mission-header">
             <div class="header-content">
@@ -74,6 +76,15 @@
     <script>
         // Override startFinalQuiz to redirect to the gold test page instead of in-page quiz
         document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('locked') === 'gold') {
+                const notice = document.getElementById('missionNotice');
+                if (notice) {
+                    notice.style.display = 'block';
+                    notice.textContent = '🔒 Termina as 3 missões do capítulo para desbloquear o Teste de Ouro.';
+                }
+            }
+
             if (typeof missionSystem !== 'undefined' && missionData.goldTestUrl) {
                 missionSystem.startFinalQuiz = function () {
                     window.location.href = missionData.goldTestUrl;

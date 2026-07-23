@@ -295,6 +295,24 @@
     <script type="module" src="auth.js"></script>
     <script src="goldtest-photosynthesis.js"></script>
     <script>
+        (function guardGoldTestAccess() {
+            const raw = localStorage.getItem('mission_photosynthesis');
+            if (!raw) {
+                window.location.href = 'mission-photosynthesis.html?locked=gold';
+                return;
+            }
+
+            try {
+                const progress = JSON.parse(raw);
+                const completed = Array.isArray(progress.completedSections) ? progress.completedSections.length : 0;
+                if (completed < 3) {
+                    window.location.href = 'mission-photosynthesis.html?locked=gold';
+                }
+            } catch (error) {
+                window.location.href = 'mission-photosynthesis.html?locked=gold';
+            }
+        })();
+
         const goldTest = (() => {
             let currentIndex = 0;
             let correctCount = 0;

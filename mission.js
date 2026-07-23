@@ -20,12 +20,46 @@ class MissionSystem {
      */
     loadProgress() {
         const savedProgress = localStorage.getItem(`mission_${this.mission.id}`);
+
         if (savedProgress) {
-            const data = JSON.parse(savedProgress);
-            this.currentSectionIndex = data.currentSectionIndex || 0;
-            this.userAnswers = data.userAnswers || {};
-            this.earnedXP = data.earnedXP || 0;
-            this.completedSections = new Set(data.completedSections || []);
+            try {
+                const data = JSON.parse(savedProgress);
+                this.currentSectionIndex = Number.isInteger(data.currentSectionIndex) ? data.currentSectionIndex : 0;
+                this.userAnswers = data.userAnswers && typeof data.userAnswers === 'object' ? data.userAnswers : {};
+                this.earnedXP = Number.isFinite(data.earnedXP) ? data.earnedXP : 0;
+                this.completedSections = new Set(Array.isArray(data.completedSections) ? data.completedSections : []);
+            } catch (error) {
+                this.currentSectionIndex = 0;
+                this.userAnswers = {};
+                this.earnedXP = 0;
+                this.completedSections = new Set();
+            }
+        }
+
+        this.enforceProgressIntegrity();
+    }
+
+    /**
+     * Ensure progression cannot skip locked sections
+     */
+    enforceProgressIntegrity() {
+        const orderedCompleted = [];
+
+        for (const section of this.mission.sections) {
+            if (this.completedSections.has(section.id)) {
+                orderedCompleted.push(section.id);
+            } else {
+                break;
+            }
+        }
+
+        this.completedSections = new Set(orderedCompleted);
+
+        const maxUnlocked = Math.min(orderedCompleted.length, this.mission.sections.length - 1);
+        this.currentSectionIndex = Math.max(0, Math.min(maxUnlocked, this.currentSectionIndex));
+
+        if (this.currentSectionIndex !== maxUnlocked) {
+            this.currentSectionIndex = maxUnlocked;
         }
     }
 
@@ -56,7 +90,6 @@ class MissionSystem {
         this.renderHeader();
         this.renderSections();
         this.updateProgressBar();
-        window.scrollTo(0, 0);
     }
 
     /**
@@ -68,19 +101,53 @@ class MissionSystem {
     }
 
     /**
+     * Return normalized question list for a section
+     */
+    getSectionQuestions(section) {
+        if (Array.isArray(section.quiz?.questions) && section.quiz.questions.length > 0) {
+            return section.quiz.questions;
+        }
+
+        if (section.quiz?.question && Array.isArray(section.quiz.options)) {
+            return [{
+                question: section.quiz.question,
+                options: section.quiz.options,
+                feedback: section.quiz.feedback || { correct: 'Correto!', incorrect: 'Tenta novamente.' }
+            }];
+        }
+
+        return [];
+    }
+
+    getSectionAnswerState(sectionId) {
+        const saved = this.userAnswers[sectionId];
+        if (saved && Array.isArray(saved.answers)) {
+            return saved;
+        }
+
+        return { answers: [] };
+    }
+
+    isSectionUnlocked(sectionIndex) {
+        return sectionIndex <= this.currentSectionIndex;
+    }
+
+    /**
      * Render all sections
      */
     renderSections() {
         const wrapper = document.getElementById('sectionsWrapper');
         wrapper.innerHTML = '';
 
-        // Render learning sections
         this.mission.sections.forEach((section, index) => {
-            const isUnlocked = index <= this.currentSectionIndex;
+            const isUnlocked = this.isSectionUnlocked(index);
             const isCompleted = this.completedSections.has(section.id);
-            
-            const sectionEl = document.createElement('div');
+
+            const sectionEl = document.createElement('section');
             sectionEl.className = `section ${isUnlocked ? 'unlocked' : 'locked'} ${isCompleted ? 'completed' : ''}`;
+            sectionEl.dataset.sectionId = section.id;
+            sectionEl.id = `missao-${index + 1}`;
+
             sectionEl.innerHTML = `
                 <div class="section-header">
                     <div class="section-number-badge">
@@ -91,54 +158,175 @@ class MissionSystem {
                         <h2>${section.icon} ${section.title}</h2>
                         <div class="section-meta">
                             <span class="xp-badge">+${section.xpReward} XP</span>
-                            ${isCompleted ? '<span class="status-badge completed">Completed</span>' : '<span class="status-badge">In Progress</span>'}
+                            ${isCompleted ? '<span class="status-badge completed">Concluída</span>' : `<span class="status-badge">${isUnlocked ? 'Em progresso' : 'Bloqueada'}</span>`}
                         </div>
                     </div>
                 </div>
-                <div class="section-body">
-                    ${section.content}
-                    <div class="section-quiz">
-                        <h3>Quick Check 📋</h3>
-                        <p class="quiz-question">${section.quiz.question}</p>
-                        <div class="quiz-options" data-section-id="${section.id}" data-section-index="${index}">
-                            ${section.quiz.options.map((option, optIdx) => `
-                                <button class="quiz-option" data-correct="${option.correct}" data-option-index="${optIdx}">
-                                    <span class="option-letter">${String.fromCharCode(65 + optIdx)})</span>
-                                    <span class="option-text">${option.text}</span>
-                                </button>
-                            `).join('')}
-                        </div>
-                    </div>
-                </div>
+                <div class="section-body"></div>
             `;
 
-            // Add event listeners to quiz options
+            const bodyEl = sectionEl.querySelector('.section-body');
+
+            if (!isUnlocked) {
+                bodyEl.innerHTML = '<div class="locked-message">🔒 Completa a missão anterior para desbloquear esta.</div>';
+            } else {
+                bodyEl.innerHTML = section.content;
+                bodyEl.insertAdjacentHTML('beforeend', this.renderSectionQuiz(section));
+            }
+
             if (isUnlocked) {
-                const options = sectionEl.querySelectorAll('.quiz-option');
-                options.forEach(option => {
-                    option.addEventListener('click', (e) => {
-                        this.handleQuizAnswer(e, section, index);
-                    });
+                sectionEl.querySelectorAll('.quiz-option').forEach(option => {
+                    option.addEventListener('click', (event) => this.handleQuizAnswer(event, section, index));
+                });
+
+                sectionEl.querySelectorAll('.open-quiz-submit').forEach(button => {
+                    button.addEventListener('click', (event) => this.handleOpenQuizAnswer(event, section, index));
                 });
             }
 
             wrapper.appendChild(sectionEl);
         });
 
-        // Render final quiz button after all sections are completed
         if (this.completedSections.size === this.mission.sections.length) {
             const finalQuizBtn = document.createElement('div');
             finalQuizBtn.className = 'final-quiz-section';
+            finalQuizBtn.id = 'finalQuizCta';
             finalQuizBtn.innerHTML = `
                 <div class="final-quiz-card">
                     <div class="final-quiz-icon">🏆</div>
-                    <h2>Ready for the Final Challenge?</h2>
-                    <p>You've completed all sections! Take the final quiz to earn bonus XP and your badge.</p>
-                    <button class="final-quiz-btn" onclick="missionSystem.startFinalQuiz()">Start Final Quiz 🚀</button>
+                    <h2>Teste de Ouro desbloqueado</h2>
+                    <p>Completaste as 3 missões! Avança para o teste final do capítulo.</p>
+                    <button class="final-quiz-btn" onclick="missionSystem.startFinalQuiz()">Tentar o Teste de Ouro 🚀</button>
                 </div>
             `;
             wrapper.appendChild(finalQuizBtn);
         }
+    }
+
+    renderSectionQuiz(section) {
+        const questions = this.getSectionQuestions(section);
+        const answerState = this.getSectionAnswerState(section.id);
+
+        if (!questions.length) {
+            return '';
+        }
+
+        return `
+            <div class="section-quiz" data-section-id="${section.id}">
+                <h3>Quiz da missão 📋</h3>
+                ${questions.map((question, questionIndex) => {
+                    const savedAnswer = answerState.answers[questionIndex];
+
+                    if (question.type === 'open') {
+                        const isAnswered = !!savedAnswer;
+                        const isCorrect = !!savedAnswer?.isCorrect;
+
+                        return `
+                            <div class="quiz-question-card">
+                                <p class="quiz-question">${questionIndex + 1}. ${question.question}</p>
+                                <textarea
+                                    class="open-quiz-input reflection-input"
+                                    data-question-index="${questionIndex}"
+                                    placeholder="${question.placeholder || 'Escreve aqui a tua resposta...'}"
+                                    ${isAnswered ? 'disabled' : ''}
+                                >${savedAnswer?.text || ''}</textarea>
+                                <button class="open-quiz-submit" data-question-index="${questionIndex}" ${isAnswered ? 'disabled' : ''}>Validar resposta</button>
+                                ${isAnswered ? `
+                                    <div class="quiz-feedback ${isCorrect ? 'feedback-correct' : 'feedback-incorrect'}">
+                                        <span class="feedback-icon">${isCorrect ? '✓' : '✕'}</span>
+                                        <span class="feedback-text">${question.feedback[isCorrect ? 'correct' : 'incorrect']}</span>
+                                    </div>
+                                ` : ''}
+                            </div>
+                        `;
+                    }
+
+                    return `
+                        <div class="quiz-question-card">
+                            <p class="quiz-question">${questionIndex + 1}. ${question.question}</p>
+                            <div class="quiz-options" data-section-id="${section.id}" data-question-index="${questionIndex}">
+                                ${question.options.map((option, optIdx) => {
+                                    const isSelected = savedAnswer?.selectedOptionIndex === optIdx;
+                                    const isLocked = !!savedAnswer;
+                                    const isCorrectOption = option.correct;
+                                    let stateClass = '';
+
+                                    if (isLocked) {
+                                        if (isCorrectOption) {
+                                            stateClass = 'correct';
+                                        } else if (isSelected && !savedAnswer.isCorrect) {
+                                            stateClass = 'incorrect';
+                                        }
+                                    }
+
+                                    return `
+                                        <button class="quiz-option ${stateClass}"
+                                                data-correct="${option.correct}"
+                                                data-option-index="${optIdx}"
+                                                data-question-index="${questionIndex}"
+                                                ${isLocked ? 'disabled' : ''}>
+                                            <span class="option-letter">${String.fromCharCode(65 + optIdx)})</span>
+                                            <span class="option-text">${option.text}</span>
+                                        </button>
+                                    `;
+                                }).join('')}
+                            </div>
+                            ${savedAnswer ? `
+                                <div class="quiz-feedback ${savedAnswer.isCorrect ? 'feedback-correct' : 'feedback-incorrect'}">
+                                    <span class="feedback-icon">${savedAnswer.isCorrect ? '✓' : '✕'}</span>
+                                    <span class="feedback-text">${question.feedback[savedAnswer.isCorrect ? 'correct' : 'incorrect']}</span>
+                                </div>
+                            ` : ''}
+                        </div>
+                    `;
+                }).join('')}
+            </div>
+        `;
+    }
+
+    isSectionQuizComplete(section) {
+        const questions = this.getSectionQuestions(section);
+        const answerState = this.getSectionAnswerState(section.id);
+
+        if (!questions.length) {
+            return false;
+        }
+
+        return questions.every((_, questionIndex) => !!answerState.answers[questionIndex]);
+    }
+
+    completeSection(section, sectionIndex) {
+        if (this.completedSections.has(section.id)) {
+            return;
+        }
+
+        this.completedSections.add(section.id);
+        this.earnedXP += section.xpReward;
+        this.showXPReward(section.xpReward);
+
+        if (sectionIndex + 1 < this.mission.sections.length) {
+            this.currentSectionIndex = sectionIndex + 1;
+        }
+
+        this.saveProgress();
+        this.showCorrectAnimation();
+
+        setTimeout(() => {
+            this.render();
+
+            if (sectionIndex + 1 < this.mission.sections.length) {
+                this.scrollToElement(`#missao-${sectionIndex + 2}`);
+            } else {
+                this.scrollToElement('#finalQuizCta');
+            }
+        }, 700);
+    }
+
+    scrollToElement(selector) {
+        const target = document.querySelector(selector);
+        if (!target) return;
+
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
     /**
@@ -146,53 +334,92 @@ class MissionSystem {
      */
     handleQuizAnswer(event, section, sectionIndex) {
         const button = event.target.closest('.quiz-option');
-        if (!button) return;
+        if (!button || button.disabled) return;
 
+        const questionIndex = Number(button.dataset.questionIndex);
+        const selectedOptionIndex = Number(button.dataset.optionIndex);
         const isCorrect = button.dataset.correct === 'true';
-        const optionIndex = button.dataset.optionIndex;
-        const quizContainer = button.parentElement;
 
-        // Disable all options
-        quizContainer.querySelectorAll('.quiz-option').forEach(opt => {
-            opt.disabled = true;
-            opt.style.pointerEvents = 'none';
-        });
-
-        // Highlight selected answer
-        button.classList.add(isCorrect ? 'correct' : 'incorrect');
-
-        // Show feedback
-        const feedbackEl = document.createElement('div');
-        feedbackEl.className = `quiz-feedback ${isCorrect ? 'feedback-correct' : 'feedback-incorrect'}`;
-        feedbackEl.innerHTML = `
-            <span class="feedback-icon">${isCorrect ? '✓' : '✕'}</span>
-            <span class="feedback-text">${section.quiz.feedback[isCorrect ? 'correct' : 'incorrect']}</span>
-        `;
-        quizContainer.appendChild(feedbackEl);
-
-        // If correct, mark section as completed and award XP
-        if (isCorrect) {
-            this.showCorrectAnimation();
-            
-            // Mark section as completed
-            if (!this.completedSections.has(section.id)) {
-                this.completedSections.add(section.id);
-                this.earnedXP += section.xpReward;
-                this.showXPReward(section.xpReward);
-                
-                // Move to next section if available
-                if (sectionIndex + 1 < this.mission.sections.length) {
-                    this.currentSectionIndex = sectionIndex + 1;
-                }
-                
-                this.saveProgress();
-                
-                // Refresh UI after delay - THIS MAKES STUDENT GO TO NEXT SECTION
-                setTimeout(() => {
-                    this.render();
-                }, 1500);
-            }
+        const answerState = this.getSectionAnswerState(section.id);
+        if (answerState.answers[questionIndex]) {
+            return;
         }
+
+        answerState.answers[questionIndex] = {
+            selectedOptionIndex,
+            isCorrect
+        };
+
+        this.userAnswers[section.id] = answerState;
+        this.saveProgress();
+
+        this.render();
+        this.scrollToElement(`#missao-${sectionIndex + 1}`);
+
+        if (this.isSectionQuizComplete(section)) {
+            this.completeSection(section, sectionIndex);
+        }
+    }
+
+    handleOpenQuizAnswer(event, section, sectionIndex) {
+        const button = event.target.closest('.open-quiz-submit');
+        if (!button || button.disabled) return;
+
+        const questionIndex = Number(button.dataset.questionIndex);
+        const container = button.closest('.quiz-question-card');
+        const input = container?.querySelector('.open-quiz-input');
+        if (!input) return;
+
+        const text = input.value.trim();
+        if (!text) return;
+
+        const question = this.getSectionQuestions(section)[questionIndex];
+        const normalizedText = text.toLowerCase();
+        const keywords = Array.isArray(question.keywords) ? question.keywords : [];
+        const foundCount = keywords.reduce((count, keyword) => {
+            return normalizedText.includes(keyword.toLowerCase()) ? count + 1 : count;
+        }, 0);
+
+        const isCorrect = foundCount >= 2;
+
+        const answerState = this.getSectionAnswerState(section.id);
+        answerState.answers[questionIndex] = {
+            text,
+            isCorrect,
+            isOpen: true
+        };
+
+        this.userAnswers[section.id] = answerState;
+        this.saveProgress();
+
+        this.render();
+        this.scrollToElement(`#missao-${sectionIndex + 1}`);
+
+        if (this.isSectionQuizComplete(section)) {
+            this.completeSection(section, sectionIndex);
+        }
+    }
+
+    /**
+     * Guard hash direct access to locked mission blocks
+     */
+    guardSectionAccessFromUrl() {
+        const match = window.location.hash.match(/^#missao-(\d+)$/);
+        if (!match) return;
+
+        const requestedIndex = parseInt(match[1], 10) - 1;
+        if (!Number.isInteger(requestedIndex) || requestedIndex < 0) {
+            return;
+        }
+
+        if (!this.isSectionUnlocked(requestedIndex)) {
+            const unlockedTarget = `#missao-${this.currentSectionIndex + 1}`;
+            this.scrollToElement(unlockedTarget);
+            window.location.hash = unlockedTarget;
+            return;
+        }
+
+        this.scrollToElement(`#missao-${requestedIndex + 1}`);
     }
 
     /**
@@ -427,7 +654,7 @@ class MissionSystem {
         const percent = this.getProgressPercent();
         document.getElementById('progressPercent').textContent = percent + '%';
         document.getElementById('progressBar').style.width = percent + '%';
-        document.getElementById('sectionCounter').textContent = `${this.completedSections.size}/${this.mission.sections.length} Sections`;
+        document.getElementById('sectionCounter').textContent = `${this.completedSections.size}/${this.mission.sections.length} Secções`;
     }
 
     /**
@@ -459,4 +686,5 @@ let missionSystem;
 document.addEventListener('DOMContentLoaded', () => {
     missionSystem = new MissionSystem(missionData);
     missionSystem.render();
+    missionSystem.guardSectionAccessFromUrl();
 });
