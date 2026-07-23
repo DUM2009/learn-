@@ -126,7 +126,7 @@ function migrateLegacyMissionXP(profile, storage) {
 
     return {
         profile: nextProfile,
-        changed: migratedXP > 0 || !safeProfile.migrations.legacyMissionXpImported
+        changed: migratedXP > 0
     };
 }
 

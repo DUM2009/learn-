@@ -409,6 +409,9 @@
                     )
                     : null;
                 const awardedXP = reward?.xpAdded || 0;
+                const xpMessage = awardedXP > 0
+                    ? `Ganhaste +${awardedXP} XP no teu perfil.`
+                    : 'Este desafio já tinha atribuído XP ao teu perfil.';
 
                 resultsEl.innerHTML = `
                     <div class="results-screen">
@@ -419,7 +422,7 @@
                                 ? '🌟 Conquistaste o badge de Mestre da Fotossíntese!'
                                 : `Precisas de ${pass}/20 para passar. Tenta outra vez!`}
                         </p>
-                        ${passed ? `<p class="pass-message">⭐ ${awardedXP > 0 ? `Ganhaste +${awardedXP} XP no teu perfil.` : 'Este desafio já tinha atribuído XP ao teu perfil.'}</p>` : ''}
+                        ${passed ? `<p class="pass-message">⭐ ${xpMessage}</p>` : ''}
 
                         <div class="results-stats">
                             <div class="result-stat">
