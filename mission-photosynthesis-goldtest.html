@@ -402,10 +402,13 @@
                 const scorePercent = Math.round((correctCount / total) * 100);
                 const passed = correctCount >= pass;
                 const challengeXP = passed ? scorePercent : 0;
-                const reward = passed && window.ProfileXP
+                const challengeRewardSource = window.ProfileXP
+                    ? window.ProfileXP.buildRewardSource('challenge', goldTestData.id)
+                    : null;
+                const reward = passed && challengeRewardSource
                     ? window.ProfileXP.awardXPToCurrentUser(
                         challengeXP,
-                        window.ProfileXP.buildRewardSource('challenge', goldTestData.id)
+                        challengeRewardSource
                     )
                     : null;
                 const xpMessage = reward?.awarded

@@ -81,6 +81,14 @@ class MissionSystem {
         return window.ProfileXP.awardXPToCurrentUser(amount, source);
     }
 
+    buildRewardSource(type, identifier) {
+        if (!window.ProfileXP) {
+            return null;
+        }
+
+        return window.ProfileXP.buildRewardSource(type, identifier);
+    }
+
     /**
      * Get current progress percentage
      */
@@ -324,9 +332,7 @@ class MissionSystem {
             return;
         }
 
-        const quizRewardSource = window.ProfileXP
-            ? window.ProfileXP.buildRewardSource('quiz', `${this.mission.id}:${section.id}`)
-            : null;
+        const quizRewardSource = this.buildRewardSource('quiz', `${this.mission.id}:${section.id}`);
 
         this.completedSections.add(section.id);
         this.earnedXP += section.xpReward;
@@ -611,9 +617,7 @@ class MissionSystem {
         const totalQuestions = this.mission.finalQuiz.length;
         const percentage = Math.round((correctAnswers / totalQuestions) * 100);
         const bonusXP = Math.round((correctAnswers / totalQuestions) * 100);
-        const finalQuizRewardSource = window.ProfileXP
-            ? window.ProfileXP.buildRewardSource('challenge', `${this.mission.id}:final-quiz`)
-            : null;
+        const finalQuizRewardSource = this.buildRewardSource('challenge', `${this.mission.id}:final-quiz`);
 
         const wrapper = document.getElementById('sectionsWrapper');
         wrapper.innerHTML = `

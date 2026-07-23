@@ -73,11 +73,31 @@ function testLegacyMissionMigration() {
     assert.strictEqual(savedProfile.migrations.legacyMissionXpImported, true);
 }
 
+function testCurrentUserProfileAccess() {
+    const user = { uid: 'student-4', email: 'current@example.com' };
+    const storage = createStorage();
+
+    global.window = {
+        exploreCurrentUser: user
+    };
+    global.localStorage = storage;
+
+    const reward = ProfileXP.awardXPToCurrentUser(100, ProfileXP.buildRewardSource('quiz', 'current-user:quiz'));
+    const profile = ProfileXP.getCurrentUserProfile();
+
+    assert.strictEqual(reward.awarded, true);
+    assert.strictEqual(profile.xp, 100);
+
+    delete global.window;
+    delete global.localStorage;
+}
+
 function run() {
     testLevelBoundaries();
     testQuizFlowAccumulation();
     testChallengeFlowAccumulation();
     testLegacyMissionMigration();
+    testCurrentUserProfileAccess();
     console.log('XP system validation passed.');
 }
 
