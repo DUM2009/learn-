@@ -20,7 +20,7 @@ const missionData = {
                 <div class="section-content">
                     <div class="screen-card">
                         <h3>Ecrã 1 — Gancho</h3>
-                        <img class="screen-visual" src="assets/images/photosynthesis/m1-hook.svg" alt="Luz solar a atingir membrana verde">
+                        <img class="screen-visual" src="assets/images/Membrana dos tilacoides.jpg" alt="Luz solar a atingir membrana verde">
                         <p>A luz do sol não entra na planta e sai já transformada em açúcar. Antes disso, ela passa por uma verdadeira central elétrica dentro da folha.</p>
                     </div>
 
