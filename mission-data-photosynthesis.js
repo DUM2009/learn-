@@ -26,7 +26,7 @@ const missionData = {
 
                     <div class="screen-card">
                         <h3>Ecrã 2 — Pergunta guia</h3>
-                        <img class="screen-visual" src="assets/images/photosynthesis/m1-guide.svg" alt="Esquema simples de cloroplasto com tilacoides em destaque">
+                        <img class="screen-visual" src="assets/images/Cloroplasto com destaque para os tilacoides.jpg" alt="Esquema simples de cloroplasto com tilacoides em destaque">
                         <p>Achas que a planta usa a água apenas para transportar nutrientes, ou também para <strong>produzir</strong> algo durante a fotossíntese?</p>
                         <div class="guide-options">
                             <button>💧 Só transporta</button>
