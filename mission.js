@@ -29,6 +29,7 @@ class MissionSystem {
                 this.earnedXP = Number.isFinite(data.earnedXP) ? data.earnedXP : 0;
                 this.completedSections = new Set(Array.isArray(data.completedSections) ? data.completedSections : []);
             } catch (error) {
+                console.warn('Could not parse mission progress from localStorage:', error);
                 this.currentSectionIndex = 0;
                 this.userAnswers = {};
                 this.earnedXP = 0;
@@ -55,12 +56,8 @@ class MissionSystem {
 
         this.completedSections = new Set(orderedCompleted);
 
-        const maxUnlocked = Math.min(orderedCompleted.length, this.mission.sections.length - 1);
+        const maxUnlocked = Math.min(orderedCompleted.length, this.mission.sections.length);
         this.currentSectionIndex = Math.max(0, Math.min(maxUnlocked, this.currentSectionIndex));
-
-        if (this.currentSectionIndex !== maxUnlocked) {
-            this.currentSectionIndex = maxUnlocked;
-        }
     }
 
     /**
@@ -128,6 +125,14 @@ class MissionSystem {
         return { answers: [] };
     }
 
+    normalizeKeywordText(text) {
+        return String(text || '')
+            .toLowerCase()
+            .replace(/[^\p{L}\p{N}+]+/gu, ' ')
+            .replace(/\s+/g, ' ')
+            .trim();
+    }
+
     isSectionUnlocked(sectionIndex) {
         return sectionIndex <= this.currentSectionIndex;
     }
@@ -143,7 +148,7 @@ class MissionSystem {
             const isUnlocked = this.isSectionUnlocked(index);
             const isCompleted = this.completedSections.has(section.id);
 
-            const sectionEl = document.createElement('section');
+            const sectionEl = document.createElement('div');
             sectionEl.className = `section ${isUnlocked ? 'unlocked' : 'locked'} ${isCompleted ? 'completed' : ''}`;
             sectionEl.dataset.sectionId = section.id;
             sectionEl.id = `missao-${index + 1}`;
@@ -201,6 +206,16 @@ class MissionSystem {
             `;
             wrapper.appendChild(finalQuizBtn);
         }
+
+        this.hydrateOpenQuizTextareas();
+    }
+
+    hydrateOpenQuizTextareas() {
+        document.querySelectorAll('.open-quiz-input[data-saved-text]').forEach((textarea) => {
+            const saved = textarea.getAttribute('data-saved-text');
+            if (!saved) return;
+            textarea.value = decodeURIComponent(saved);
+        });
     }
 
     renderSectionQuiz(section) {
@@ -227,9 +242,10 @@ class MissionSystem {
                                 <textarea
                                     class="open-quiz-input reflection-input"
                                     data-question-index="${questionIndex}"
+                                    data-saved-text="${savedAnswer?.text ? encodeURIComponent(savedAnswer.text) : ''}"
                                     placeholder="${question.placeholder || 'Escreve aqui a tua resposta...'}"
                                     ${isAnswered ? 'disabled' : ''}
-                                >${savedAnswer?.text || ''}</textarea>
+                                ></textarea>
                                 <button class="open-quiz-submit" data-question-index="${questionIndex}" ${isAnswered ? 'disabled' : ''}>Validar resposta</button>
                                 ${isAnswered ? `
                                     <div class="quiz-feedback ${isCorrect ? 'feedback-correct' : 'feedback-incorrect'}">
@@ -329,6 +345,11 @@ class MissionSystem {
         target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
+    getFirstAccessibleSectionHash() {
+        const maxSectionIndex = Math.max(0, Math.min(this.currentSectionIndex, this.mission.sections.length - 1));
+        return `#missao-${maxSectionIndex + 1}`;
+    }
+
     /**
      * Handle quiz answer selection
      */
@@ -374,13 +395,29 @@ class MissionSystem {
         if (!text) return;
 
         const question = this.getSectionQuestions(section)[questionIndex];
-        const normalizedText = text.toLowerCase();
+        const normalizedText = this.normalizeKeywordText(text);
+        const tokens = normalizedText.split(' ').filter(Boolean);
         const keywords = Array.isArray(question.keywords) ? question.keywords : [];
         const foundCount = keywords.reduce((count, keyword) => {
-            return normalizedText.includes(keyword.toLowerCase()) ? count + 1 : count;
+            const keywordTokens = this.normalizeKeywordText(keyword).split(' ').filter(Boolean);
+            if (!keywordTokens.length) {
+                return count;
+            }
+
+            let isMatch = false;
+            for (let i = 0; i <= tokens.length - keywordTokens.length; i += 1) {
+                const sequence = tokens.slice(i, i + keywordTokens.length);
+                if (sequence.join(' ') === keywordTokens.join(' ')) {
+                    isMatch = true;
+                    break;
+                }
+            }
+
+            return isMatch ? count + 1 : count;
         }, 0);
 
-        const isCorrect = foundCount >= 2;
+        const requiredKeywords = Number.isInteger(question.minKeywords) ? question.minKeywords : 2;
+        const isCorrect = foundCount >= requiredKeywords;
 
         const answerState = this.getSectionAnswerState(section.id);
         answerState.answers[questionIndex] = {
@@ -409,11 +446,14 @@ class MissionSystem {
 
         const requestedIndex = parseInt(match[1], 10) - 1;
         if (!Number.isInteger(requestedIndex) || requestedIndex < 0) {
+            const unlockedTarget = this.getFirstAccessibleSectionHash();
+            this.scrollToElement(unlockedTarget);
+            window.location.hash = unlockedTarget;
             return;
         }
 
         if (!this.isSectionUnlocked(requestedIndex)) {
-            const unlockedTarget = `#missao-${this.currentSectionIndex + 1}`;
+            const unlockedTarget = this.getFirstAccessibleSectionHash();
             this.scrollToElement(unlockedTarget);
             window.location.hash = unlockedTarget;
             return;

@@ -424,6 +424,7 @@ const missionData = {
                         type: "open",
                         question: "Explica por palavras tuas (2-3 frases): porque dizemos que a fotossíntese é um sistema e não duas reações separadas?",
                         placeholder: "Ex.: As duas fases dependem uma da outra...",
+                        minKeywords: 2,
                         keywords: ["atp", "nadph", "depende", "liga", "fase clara", "calvin"],
                         feedback: {
                             correct: "Boa síntese! Mostraste a ligação entre as duas fases e a dependência mútua.",
