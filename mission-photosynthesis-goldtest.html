@@ -294,6 +294,7 @@
 
     <script type="module" src="auth.js"></script>
     <script src="mission-data-photosynthesis.js"></script>
+    <script src="profile-xp.js"></script>
     <script src="goldtest-photosynthesis.js"></script>
     <script>
         (function guardGoldTestAccess() {
@@ -398,8 +399,21 @@
 
                 const total = goldTestData.totalQuestions;
                 const pass  = goldTestData.passScore;
-                const pct   = Math.round((correctCount / total) * 100);
+                const scorePercent = Math.round((correctCount / total) * 100);
                 const passed = correctCount >= pass;
+                const challengeXP = passed ? scorePercent : 0;
+                const challengeRewardSource = window.ProfileXP
+                    ? window.ProfileXP.buildRewardSource('challenge', goldTestData.id)
+                    : null;
+                const reward = passed && challengeRewardSource
+                    ? window.ProfileXP.awardXPToCurrentUser(
+                        challengeXP,
+                        challengeRewardSource
+                    )
+                    : null;
+                const xpMessage = reward?.awarded
+                    ? `Ganhaste +${reward.xpAdded} XP no teu perfil.`
+                    : 'Este desafio já tinha atribuído XP ao teu perfil.';
 
                 resultsEl.innerHTML = `
                     <div class="results-screen">
@@ -410,6 +424,7 @@
                                 ? '🌟 Conquistaste o badge de Mestre da Fotossíntese!'
                                 : `Precisas de ${pass}/20 para passar. Tenta outra vez!`}
                         </p>
+                        ${passed ? `<p class="pass-message">⭐ ${xpMessage}</p>` : ''}
 
                         <div class="results-stats">
                             <div class="result-stat">
@@ -417,7 +432,7 @@
                                 <div class="result-stat-label">Respostas certas</div>
                             </div>
                             <div class="result-stat">
-                                <div class="result-stat-value">${pct}%</div>
+                                <div class="result-stat-value">${scorePercent}%</div>
                                 <div class="result-stat-label">Precisão</div>
                             </div>
                         </div>

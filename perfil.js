@@ -7,7 +7,23 @@ import {
 // Get DOM elements - with null checks to prevent errors on pages without these elements
 const nomeAluno = document.getElementById("nomeAluno");
 const emailAluno = document.getElementById("emailAluno");
+const nivelAluno = document.getElementById("nivelAluno");
+const xpAluno = document.getElementById("xpAluno");
+const xpProgressBar = document.getElementById("xpProgressBar");
 const logoutBtn = document.getElementById("logoutBtn");
+
+function renderProfileXP(user) {
+    if (!window.ProfileXP || !nivelAluno || !xpAluno || !xpProgressBar) {
+        return;
+    }
+
+    const profile = window.ProfileXP.readProfile(localStorage, user);
+    const stats = window.ProfileXP.getProfileStats(profile);
+
+    nivelAluno.textContent = `Nível ${stats.level}`;
+    xpAluno.textContent = `${stats.xp} XP totais • Próximo nível aos ${stats.nextLevelThreshold} XP`;
+    xpProgressBar.style.width = `${stats.progressPercent}%`;
+}
 
 // Monitor authentication state changes
 onAuthStateChanged(auth, (user) => {
@@ -20,6 +36,8 @@ onAuthStateChanged(auth, (user) => {
         if (emailAluno) {
             emailAluno.textContent = user.email;
         }
+
+        renderProfileXP(user);
 
     } else {
         // User is not logged in - redirect to login page
@@ -44,3 +62,15 @@ if (logoutBtn) {
 
     });
 }
+
+window.addEventListener('storage', () => {
+    if (auth.currentUser) {
+        renderProfileXP(auth.currentUser);
+    }
+});
+
+window.addEventListener('explore:profile-updated', () => {
+    if (auth.currentUser) {
+        renderProfileXP(auth.currentUser);
+    }
+});
