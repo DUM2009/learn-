@@ -324,12 +324,13 @@ class MissionSystem {
             return;
         }
 
+        const quizRewardSource = window.ProfileXP
+            ? window.ProfileXP.buildRewardSource('quiz', `${this.mission.id}:${section.id}`)
+            : null;
+
         this.completedSections.add(section.id);
         this.earnedXP += section.xpReward;
-        this.awardProfileXP(
-            section.xpReward,
-            window.ProfileXP?.buildRewardSource('quiz', `${this.mission.id}:${section.id}`)
-        );
+        this.awardProfileXP(section.xpReward, quizRewardSource);
         this.showXPReward(section.xpReward);
 
         if (sectionIndex + 1 < this.mission.sections.length) {
@@ -610,6 +611,9 @@ class MissionSystem {
         const totalQuestions = this.mission.finalQuiz.length;
         const percentage = Math.round((correctAnswers / totalQuestions) * 100);
         const bonusXP = Math.round((correctAnswers / totalQuestions) * 100);
+        const finalQuizRewardSource = window.ProfileXP
+            ? window.ProfileXP.buildRewardSource('challenge', `${this.mission.id}:final-quiz`)
+            : null;
 
         const wrapper = document.getElementById('sectionsWrapper');
         wrapper.innerHTML = `
@@ -682,10 +686,7 @@ class MissionSystem {
         // Update final earnedXP for localStorage
         this.earnedXP += bonusXP;
         this.saveProgress();
-        this.awardProfileXP(
-            bonusXP,
-            window.ProfileXP?.buildRewardSource('challenge', `${this.mission.id}:final-quiz`)
-        );
+        this.awardProfileXP(bonusXP, finalQuizRewardSource);
     }
 
     /**

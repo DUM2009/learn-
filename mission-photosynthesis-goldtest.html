@@ -399,18 +399,17 @@
 
                 const total = goldTestData.totalQuestions;
                 const pass  = goldTestData.passScore;
-                const pct   = Math.round((correctCount / total) * 100);
+                const scorePercent = Math.round((correctCount / total) * 100);
                 const passed = correctCount >= pass;
-                const challengeXP = passed ? pct : 0;
+                const challengeXP = passed ? scorePercent : 0;
                 const reward = passed && window.ProfileXP
                     ? window.ProfileXP.awardXPToCurrentUser(
                         challengeXP,
                         window.ProfileXP.buildRewardSource('challenge', goldTestData.id)
                     )
                     : null;
-                const awardedXP = reward?.xpAdded ?? 0;
                 const xpMessage = reward?.awarded
-                    ? `Ganhaste +${awardedXP} XP no teu perfil.`
+                    ? `Ganhaste +${reward.xpAdded} XP no teu perfil.`
                     : 'Este desafio já tinha atribuído XP ao teu perfil.';
 
                 resultsEl.innerHTML = `
@@ -430,7 +429,7 @@
                                 <div class="result-stat-label">Respostas certas</div>
                             </div>
                             <div class="result-stat">
-                                <div class="result-stat-value">${pct}%</div>
+                                <div class="result-stat-value">${scorePercent}%</div>
                                 <div class="result-stat-label">Precisão</div>
                             </div>
                         </div>
