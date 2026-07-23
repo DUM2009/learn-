@@ -40,7 +40,7 @@ const missionData = {
                         <div class="screen-subcards">
                             <div class="info-card">
                                 <h4>Cartão 1 — Onde acontece</h4>
-                                <img class="card-visual" src="assets/images/photosynthesis/m1-card-where.svg" alt="Zoom folha para célula para cloroplasto para tilacoide">
+                                <img class="card-visual" src="assets/images/Tilacoides 2.jpg" alt="Zoom folha para célula para cloroplasto para tilacoide">
                                 <p>A fase clara ocorre nos <strong>tilacoides</strong>, membranas dentro do cloroplasto onde está a clorofila.</p>
                             </div>
                             <div class="info-card">
