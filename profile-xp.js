@@ -203,12 +203,21 @@ function announceProfileUpdate(user, profile) {
     }));
 }
 
-function awardXPToUser(user, amount, source, storage = typeof localStorage !== 'undefined' ? localStorage : null) {
-    const currentProfile = readProfile(storage, user);
+function getDefaultStorage(storage) {
+    if (storage) {
+        return storage;
+    }
+
+    return typeof localStorage !== 'undefined' ? localStorage : null;
+}
+
+function awardXPToUser(user, amount, source, storage) {
+    const resolvedStorage = getDefaultStorage(storage);
+    const currentProfile = readProfile(resolvedStorage, user);
     const result = awardXP(currentProfile, amount, source);
 
     if (result.awarded) {
-        writeProfile(storage, user, result.profile);
+        writeProfile(resolvedStorage, user, result.profile);
         announceProfileUpdate(user, result.profile);
     }
 
@@ -223,12 +232,12 @@ function getCurrentUser() {
     return window.exploreCurrentUser || null;
 }
 
-function getCurrentUserProfile(storage = typeof localStorage !== 'undefined' ? localStorage : null) {
-    return readProfile(storage, getCurrentUser());
+function getCurrentUserProfile(storage) {
+    return readProfile(getDefaultStorage(storage), getCurrentUser());
 }
 
-function awardXPToCurrentUser(amount, source, storage = typeof localStorage !== 'undefined' ? localStorage : null) {
-    return awardXPToUser(getCurrentUser(), amount, source, storage);
+function awardXPToCurrentUser(amount, source, storage) {
+    return awardXPToUser(getCurrentUser(), amount, source, getDefaultStorage(storage));
 }
 
 const ProfileXP = {
