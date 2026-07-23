@@ -4,13 +4,100 @@ import {
     signOut
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-// Get DOM elements - with null checks to prevent errors on pages without these elements
 const nomeAluno = document.getElementById("nomeAluno");
 const emailAluno = document.getElementById("emailAluno");
 const nivelAluno = document.getElementById("nivelAluno");
 const xpAluno = document.getElementById("xpAluno");
 const xpProgressBar = document.getElementById("xpProgressBar");
+const achievementsGrid = document.getElementById("achievementsGrid");
+const profileRank = document.getElementById("profileRank");
+const currentSubject = document.getElementById("currentSubject");
+const remainingUnlocks = document.getElementById("remainingUnlocks");
+const profileImage = document.getElementById("profileImage");
+const profileAvatarFallback = document.getElementById("profileAvatarFallback");
 const logoutBtn = document.getElementById("logoutBtn");
+const sidebar = document.getElementById("profileSidebar");
+const sidebarToggle = document.getElementById("sidebarToggle");
+const sidebarOverlay = document.getElementById("sidebarOverlay");
+
+function getNickname(user) {
+    const displayName = String(user?.displayName || '').trim();
+
+    if (displayName) {
+        return displayName;
+    }
+
+    if (user?.email) {
+        return user.email.split("@")[0];
+    }
+
+    return "Aluno";
+}
+
+function updateCurrentUserState(user) {
+    window.exploreCurrentUser = user ? {
+        uid: user.uid || null,
+        email: user.email || null,
+        displayName: user.displayName || null,
+        photoURL: user.photoURL || null
+    } : null;
+}
+
+function renderProfilePhoto(user, nickname) {
+    if (!profileImage || !profileAvatarFallback) {
+        return;
+    }
+
+    const fallbackText = nickname.charAt(0).toUpperCase() || '👤';
+    profileAvatarFallback.textContent = fallbackText;
+
+    if (user?.photoURL) {
+        profileImage.src = user.photoURL;
+        profileImage.hidden = false;
+        profileAvatarFallback.hidden = true;
+        return;
+    }
+
+    profileImage.hidden = true;
+    profileAvatarFallback.hidden = false;
+}
+
+function renderAchievements(overview) {
+    if (!achievementsGrid) {
+        return;
+    }
+
+    achievementsGrid.innerHTML = overview.badges.map((badge) => `
+        <article class="achievement-card ${badge.unlocked ? 'is-unlocked' : 'is-locked'}" aria-label="${badge.name} ${badge.unlocked ? 'desbloqueado' : 'bloqueado'}">
+            <div class="achievement-badge-art">
+                <img src="${badge.icon}" alt="Emblema ${badge.name} ${badge.tone} com ilustração temática">
+            </div>
+            <div class="achievement-copy">
+                <h3>${badge.name}</h3>
+                <p>${badge.tone}</p>
+                <span class="achievement-status">${badge.unlocked ? 'Desbloqueado' : 'Bloqueado'}</span>
+            </div>
+        </article>
+    `).join('');
+}
+
+function renderRemainingUnlocks(items) {
+    if (!remainingUnlocks) {
+        return;
+    }
+
+    if (!items.length) {
+        remainingUnlocks.innerHTML = '<li>Tudo desbloqueado. Excelente trabalho!</li>';
+        return;
+    }
+
+    remainingUnlocks.innerHTML = items.map((item) => `
+        <li>
+            <strong>${item.label}</strong>
+            <span>${item.description}</span>
+        </li>
+    `).join('');
+}
 
 function renderProfileXP(user) {
     if (!window.ProfileXP || !nivelAluno || !xpAluno || !xpProgressBar) {
@@ -18,48 +105,87 @@ function renderProfileXP(user) {
     }
 
     const profile = window.ProfileXP.readProfile(localStorage, user);
-    const stats = window.ProfileXP.getProfileStats(profile);
+    const overview = window.ProfileXP.getProfileOverview(profile);
+    const nickname = getNickname(user);
 
-    nivelAluno.textContent = `Nível ${stats.level}`;
-    xpAluno.textContent = `${stats.xp} XP totais • Próximo nível aos ${stats.nextLevelThreshold} XP`;
-    xpProgressBar.style.width = `${stats.progressPercent}%`;
-}
-
-// Monitor authentication state changes
-onAuthStateChanged(auth, (user) => {
-
-    if (user) {
-        // User is logged in - display their information
-        if (nomeAluno) {
-            nomeAluno.textContent = user.email.split("@")[0];
-        }
-        if (emailAluno) {
-            emailAluno.textContent = user.email;
-        }
-
-        renderProfileXP(user);
-
-    } else {
-        // User is not logged in - redirect to login page
-        window.location.href = "login.html";
-
+    if (nomeAluno) {
+        nomeAluno.textContent = nickname;
+    }
+    if (emailAluno) {
+        emailAluno.textContent = user?.email || 'Sem email disponível';
+    }
+    if (profileRank) {
+        profileRank.textContent = overview.rank;
+    }
+    if (currentSubject) {
+        currentSubject.textContent = overview.currentSubject;
     }
 
+    nivelAluno.textContent = `Nível ${overview.stats.level}`;
+    xpAluno.textContent = `${overview.stats.xp} XP totais • Próximo nível aos ${overview.stats.nextLevelThreshold} XP`;
+    xpProgressBar.style.width = `${overview.stats.progressPercent}%`;
+
+    renderProfilePhoto(user, nickname);
+    renderAchievements(overview);
+    renderRemainingUnlocks(overview.remainingUnlockables);
+}
+
+function setSidebarState(isOpen) {
+    if (!sidebar || !sidebarToggle || !sidebarOverlay) {
+        return;
+    }
+
+    sidebar.classList.toggle('is-open', isOpen);
+    sidebar.setAttribute('aria-hidden', String(!isOpen));
+    sidebarToggle.setAttribute('aria-expanded', String(isOpen));
+    sidebarOverlay.hidden = !isOpen;
+    document.body.classList.toggle('sidebar-open', isOpen);
+}
+
+if (sidebarToggle) {
+    sidebarToggle.addEventListener('click', () => {
+        setSidebarState(!sidebar.classList.contains('is-open'));
+    });
+}
+
+if (sidebarOverlay) {
+    sidebarOverlay.addEventListener('click', () => {
+        setSidebarState(false);
+    });
+}
+
+if (sidebar) {
+    sidebar.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', () => setSidebarState(false));
+    });
+}
+
+window.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+        setSidebarState(false);
+    }
 });
 
-// Add logout functionality - only if the button exists on this page
+onAuthStateChanged(auth, (user) => {
+    updateCurrentUserState(user);
+
+    if (user) {
+        renderProfileXP(user);
+    } else {
+        window.location.href = "login.html";
+    }
+});
+
 if (logoutBtn) {
     logoutBtn.addEventListener("click", () => {
-
         signOut(auth)
             .then(() => {
-                // Logout successful - redirect to index
+                updateCurrentUserState(null);
                 window.location.href = "index.html";
             })
             .catch((erro) => {
                 alert("Erro ao terminar sessão: " + erro.message);
             });
-
     });
 }
 

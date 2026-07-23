@@ -92,12 +92,60 @@ function testCurrentUserProfileAccess() {
     delete global.localStorage;
 }
 
+function testBadgeUnlockAndSafeDefaults() {
+    const user = { uid: 'student-5', email: 'badges@example.com' };
+    const storage = createStorage();
+
+    const defaultProfile = ProfileXP.readProfile(storage, user);
+    assert.deepStrictEqual(
+        ProfileXP.getBadgeCatalog(defaultProfile).map((badge) => badge.unlocked),
+        [false, false, false]
+    );
+
+    const photosynthesisSource = ProfileXP.buildRewardSource('challenge', 'photosynthesis-goldtest');
+    const photosynthesisResult = ProfileXP.awardXPToUser(user, 50, photosynthesisSource, storage);
+    const dnaSource = ProfileXP.buildRewardSource('quiz', 'dna:code-of-life');
+    const dnaResult = ProfileXP.unlockBadgesForUser(user, dnaSource, storage);
+    const profile = ProfileXP.readProfile(storage, user);
+    const badges = ProfileXP.getBadgeCatalog(profile);
+
+    assert.deepStrictEqual(photosynthesisResult.unlockedBadges, ['photosynthesis']);
+    assert.deepStrictEqual(dnaResult.unlockedBadges, ['dna']);
+    assert.strictEqual(badges.find((badge) => badge.id === 'photosynthesis').unlocked, true);
+    assert.strictEqual(badges.find((badge) => badge.id === 'dna').unlocked, true);
+    assert.strictEqual(badges.find((badge) => badge.id === 'mitosis').unlocked, false);
+}
+
+function testProfileOverview() {
+    const profile = {
+        xp: 220,
+        awardedSources: {
+            'challenge:photosynthesis-goldtest': true,
+            'quiz:dna:code-of-life': true
+        },
+        badges: {
+            photosynthesis: { unlocked: true },
+            dna: { unlocked: true }
+        }
+    };
+    const overview = ProfileXP.getProfileOverview(profile);
+
+    assert.strictEqual(overview.stats.level, 2);
+    assert.strictEqual(overview.stats.xp, 220);
+    assert.strictEqual(overview.rank, 'Explorador');
+    assert.strictEqual(overview.currentSubject, 'DNA');
+    assert.ok(overview.remainingUnlockables.some((item) => item.label.includes('Investigador')));
+    assert.ok(overview.remainingUnlockables.some((item) => item.label.includes('Mitose')));
+}
+
 function run() {
     testLevelBoundaries();
     testQuizFlowAccumulation();
     testChallengeFlowAccumulation();
     testLegacyMissionMigration();
     testCurrentUserProfileAccess();
+    testBadgeUnlockAndSafeDefaults();
+    testProfileOverview();
     console.log('XP system validation passed.');
 }
 
