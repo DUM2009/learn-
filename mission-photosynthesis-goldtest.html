@@ -293,8 +293,34 @@
     </div>
 
     <script type="module" src="auth.js"></script>
+    <script src="mission-data-photosynthesis.js"></script>
     <script src="goldtest-photosynthesis.js"></script>
     <script>
+        (function guardGoldTestAccess() {
+            const storageKey = `mission_${missionData?.id || 'photosynthesis'}`;
+            const raw = localStorage.getItem(storageKey);
+            const requiredSections = new Set(
+                Array.isArray(missionData?.sections) ? missionData.sections.map((section) => section.id) : []
+            );
+
+            if (!raw) {
+                window.location.href = 'mission-photosynthesis.html?locked=gold';
+                return;
+            }
+
+            try {
+                const progress = JSON.parse(raw);
+                const completed = Array.isArray(progress.completedSections) ? progress.completedSections : [];
+                const validCompletedSections = new Set(completed.filter((id) => requiredSections.has(id)));
+
+                if (!requiredSections.size || validCompletedSections.size !== requiredSections.size) {
+                    window.location.href = 'mission-photosynthesis.html?locked=gold';
+                }
+            } catch (error) {
+                window.location.href = 'mission-photosynthesis.html?locked=gold';
+            }
+        })();
+
         const goldTest = (() => {
             let currentIndex = 0;
             let correctCount = 0;

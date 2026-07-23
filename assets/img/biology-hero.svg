@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 500" width="600" height="500">
+  <defs>
+    <radialGradient id="cellGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#e8f5e9"/>
+      <stop offset="100%" stop-color="#c8e6c9"/>
+    </radialGradient>
+    <radialGradient id="nucleusGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#a5d6a7"/>
+      <stop offset="100%" stop-color="#388e3c"/>
+    </radialGradient>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#eef9f5"/>
+      <stop offset="100%" stop-color="#e3f2fd"/>
+    </linearGradient>
+    <linearGradient id="helixGreen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1f8a5b"/>
+      <stop offset="50%" stop-color="#37d67a"/>
+      <stop offset="100%" stop-color="#1f8a5b"/>
+    </linearGradient>
+    <linearGradient id="helixBlue" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1565C0"/>
+      <stop offset="50%" stop-color="#42A5F5"/>
+      <stop offset="100%" stop-color="#1565C0"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#1f8a5b" flood-opacity="0.15"/>
+    </filter>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <g transform="translate(20,0)">
+  <!-- Background -->
+  <rect width="600" height="500" fill="url(#bgGrad)" rx="25"/>
+
+  <!-- Floating particles -->
+  <circle cx="50" cy="60" r="6" fill="#37d67a" opacity="0.4"/>
+  <circle cx="540" cy="80" r="8" fill="#42A5F5" opacity="0.35"/>
+  <circle cx="570" cy="420" r="5" fill="#1f8a5b" opacity="0.3"/>
+  <circle cx="30" cy="440" r="7" fill="#42A5F5" opacity="0.3"/>
+  <circle cx="80" cy="200" r="4" fill="#37d67a" opacity="0.5"/>
+  <circle cx="520" cy="300" r="6" fill="#388e3c" opacity="0.3"/>
+  
+  <!-- Large cell outline (background) -->
+  <ellipse cx="300" cy="260" rx="185" ry="165" fill="url(#cellGrad)" stroke="#81c784" stroke-width="2.5" opacity="0.85" filter="url(#shadow)"/>
+  
+  <!-- Cell membrane detail (inner ring) -->
+  <ellipse cx="300" cy="260" rx="178" ry="158" fill="none" stroke="#a5d6a7" stroke-width="1" opacity="0.5"/>
+
+  <!-- Nucleus -->
+  <ellipse cx="300" cy="250" rx="65" ry="58" fill="url(#nucleusGrad)" stroke="#2e7d32" stroke-width="2" opacity="0.9"/>
+  
+  <!-- Nuclear pores (small circles on nucleus edge) -->
+  <circle cx="235" cy="250" r="4" fill="#1b5e20" opacity="0.7"/>
+  <circle cx="365" cy="250" r="4" fill="#1b5e20" opacity="0.7"/>
+  <circle cx="300" cy="192" r="4" fill="#1b5e20" opacity="0.7"/>
+  <circle cx="300" cy="308" r="4" fill="#1b5e20" opacity="0.7"/>
+  <circle cx="250" cy="205" r="3" fill="#1b5e20" opacity="0.6"/>
+  <circle cx="350" cy="205" r="3" fill="#1b5e20" opacity="0.6"/>
+  <circle cx="250" cy="295" r="3" fill="#1b5e20" opacity="0.6"/>
+  <circle cx="350" cy="295" r="3" fill="#1b5e20" opacity="0.6"/>
+  
+  <!-- DNA inside nucleus (simplified double helix) -->
+  <path d="M 275,225 C 280,235 310,235 315,225" fill="none" stroke="#fff" stroke-width="2" opacity="0.8"/>
+  <path d="M 275,235 C 280,245 310,245 315,235" fill="none" stroke="#fff" stroke-width="2" opacity="0.8"/>
+  <path d="M 275,245 C 280,255 310,255 315,245" fill="none" stroke="#fff" stroke-width="2" opacity="0.8"/>
+  <path d="M 275,255 C 280,265 310,265 315,255" fill="none" stroke="#fff" stroke-width="2" opacity="0.8"/>
+  <path d="M 275,265 C 280,275 310,275 315,265" fill="none" stroke="#fff" stroke-width="2" opacity="0.8"/>
+  <line x1="275" y1="225" x2="275" y2="270" stroke="#fff" stroke-width="1.5" opacity="0.7"/>
+  <line x1="315" y1="225" x2="315" y2="270" stroke="#fff" stroke-width="1.5" opacity="0.7"/>
+  
+  <!-- Mitochondrion (small, top-right of cell) -->
+  <ellipse cx="370" cy="185" rx="30" ry="14" fill="#ffcc80" stroke="#ef6c00" stroke-width="1.5" opacity="0.85"/>
+  <path d="M 345,185 C 352,178 360,192 367,185 C 374,178 381,192 388,185" fill="none" stroke="#ef6c00" stroke-width="1" opacity="0.7"/>
+  
+  <!-- Ribosome dots (small scattered) -->
+  <circle cx="240" cy="300" r="4" fill="#42A5F5" opacity="0.7"/>
+  <circle cx="355" cy="310" r="4" fill="#42A5F5" opacity="0.7"/>
+  <circle cx="220" cy="230" r="3" fill="#42A5F5" opacity="0.6"/>
+  <circle cx="380" cy="225" r="3" fill="#42A5F5" opacity="0.6"/>
+  <circle cx="330" cy="330" r="4" fill="#42A5F5" opacity="0.7"/>
+  <circle cx="265" cy="340" r="3" fill="#42A5F5" opacity="0.6"/>
+
+  <!-- Small DNA helix on the left side (outside cell) -->
+  <path d="M 80,120 C 85,135 105,135 110,120 C 115,105 135,105 140,120 C 145,135 165,135 170,120" 
+        fill="none" stroke="url(#helixGreen)" stroke-width="3" stroke-linecap="round"/>
+  <path d="M 80,120 C 85,105 105,105 110,120 C 115,135 135,135 140,120 C 145,105 165,105 170,120" 
+        fill="none" stroke="url(#helixBlue)" stroke-width="3" stroke-linecap="round"/>
+  <line x1="95" y1="109" x2="95" y2="131" stroke="#FF6B9D" stroke-width="2"/>
+  <line x1="125" y1="109" x2="125" y2="131" stroke="#5F27CD" stroke-width="2"/>
+  <line x1="155" y1="109" x2="155" y2="131" stroke="#00D2D3" stroke-width="2"/>
+
+  <!-- Small DNA helix on the right side -->
+  <path d="M 430,380 C 435,395 455,395 460,380 C 465,365 485,365 490,380 C 495,395 515,395 520,380" 
+        fill="none" stroke="url(#helixGreen)" stroke-width="3" stroke-linecap="round"/>
+  <path d="M 430,380 C 435,365 455,365 460,380 C 465,395 485,395 490,380 C 495,365 515,365 520,380" 
+        fill="none" stroke="url(#helixBlue)" stroke-width="3" stroke-linecap="round"/>
+  <line x1="445" y1="369" x2="445" y2="391" stroke="#FF9F43" stroke-width="2"/>
+  <line x1="475" y1="369" x2="475" y2="391" stroke="#54A0FF" stroke-width="2"/>
+  <line x1="505" y1="369" x2="505" y2="391" stroke="#5F27CD" stroke-width="2"/>
+
+  <!-- Explore+ label badge -->
+  <rect x="430" y="30" width="140" height="42" rx="21" fill="#1f8a5b" opacity="0.9"/>
+  <text x="500" y="56" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="white" font-weight="700">Explore+</text>
+
+  <!-- Biology text -->
+  <text x="300" y="472" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#555" font-weight="600" letter-spacing="3">BIOLOGIA</text>
+  
+  <!-- Molecule label in cell -->
+  <text x="300" y="250" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white" font-weight="700" opacity="0.9">ADN</text>
+  </g>
+</svg>
