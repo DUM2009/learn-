@@ -45,7 +45,7 @@ const missionData = {
                             </div>
                             <div class="info-card">
                                 <h4>Cartão 2 — Fotólise da água</h4>
-                                <img class="card-visual" src="assets/images/photosynthesis/Fotólise da água.jpg" alt="Molécula de água dividida em eletrões, protões e oxigénio">
+                                <img class="card-visual" src="assets/images/Fotólise da água.jpg" alt="Molécula de água dividida em eletrões, protões e oxigénio">
                                 <p>A luz "parte" a molécula de água (fotólise). Isso liberta <strong>eletrões</strong>, <strong>protões (H⁺)</strong> e <strong>oxigénio</strong>, que sai para o ar.</p>
                             </div>
                             <div class="info-card">
