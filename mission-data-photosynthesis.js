@@ -29,8 +29,8 @@ const missionData = {
                         <img class="screen-visual" src="assets/images/photosynthesis/m1-guide.svg" alt="Esquema simples de cloroplasto com tilacoides em destaque">
                         <p>Achas que a planta usa a água apenas para transportar nutrientes, ou também para <strong>produzir</strong> algo durante a fotossíntese?</p>
                         <div class="guide-options">
-                            <span>💧 Só transporta</span>
-                            <span>⚡ Também produz algo</span>
+                            <button>💧 Só transporta</button>
+                            <button>⚡ Também produz algo</button>
                         </div>
                         <p class="neutral-feedback">Vamos ver o que a água realmente faz aqui dentro.</p>
                     </div>
@@ -45,7 +45,7 @@ const missionData = {
                             </div>
                             <div class="info-card">
                                 <h4>Cartão 2 — Fotólise da água</h4>
-                                <img class="card-visual" src="assets/images/photosynthesis/m1-card-photolysis.svg" alt="Molécula de água dividida em eletrões, protões e oxigénio">
+                                <img class="card-visual" src="assets/images/photosynthesis/Fotólise da água.jpg" alt="Molécula de água dividida em eletrões, protões e oxigénio">
                                 <p>A luz "parte" a molécula de água (fotólise). Isso liberta <strong>eletrões</strong>, <strong>protões (H⁺)</strong> e <strong>oxigénio</strong>, que sai para o ar.</p>
                             </div>
                             <div class="info-card">
