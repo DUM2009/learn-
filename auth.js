@@ -4,8 +4,24 @@ import {
     signOut
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
+function updateCurrentUser(user) {
+    if (user) {
+        window.exploreCurrentUser = {
+            uid: user.uid || null,
+            email: user.email || null
+        };
+    } else {
+        window.exploreCurrentUser = null;
+    }
+
+    window.dispatchEvent(new CustomEvent('explore:auth-changed', {
+        detail: window.exploreCurrentUser
+    }));
+}
+
 // Check authentication state on all pages
 onAuthStateChanged(auth, (user) => {
+    updateCurrentUser(user);
     const header = document.querySelector('header');
     if (!header) return;
     

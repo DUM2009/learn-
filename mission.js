@@ -73,6 +73,14 @@ class MissionSystem {
         localStorage.setItem(`mission_${this.mission.id}`, JSON.stringify(data));
     }
 
+    awardProfileXP(amount, source) {
+        if (!window.ProfileXP) {
+            return { awarded: false, xpAdded: 0 };
+        }
+
+        return window.ProfileXP.awardXPToCurrentUser(amount, source);
+    }
+
     /**
      * Get current progress percentage
      */
@@ -318,6 +326,10 @@ class MissionSystem {
 
         this.completedSections.add(section.id);
         this.earnedXP += section.xpReward;
+        this.awardProfileXP(
+            section.xpReward,
+            window.ProfileXP?.buildRewardSource('quiz', `${this.mission.id}:${section.id}`)
+        );
         this.showXPReward(section.xpReward);
 
         if (sectionIndex + 1 < this.mission.sections.length) {
@@ -670,6 +682,10 @@ class MissionSystem {
         // Update final earnedXP for localStorage
         this.earnedXP += bonusXP;
         this.saveProgress();
+        this.awardProfileXP(
+            bonusXP,
+            window.ProfileXP?.buildRewardSource('challenge', `${this.mission.id}:final-quiz`)
+        );
     }
 
     /**

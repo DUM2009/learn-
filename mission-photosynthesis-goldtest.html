@@ -294,6 +294,7 @@
 
     <script type="module" src="auth.js"></script>
     <script src="mission-data-photosynthesis.js"></script>
+    <script src="profile-xp.js"></script>
     <script src="goldtest-photosynthesis.js"></script>
     <script>
         (function guardGoldTestAccess() {
@@ -400,6 +401,14 @@
                 const pass  = goldTestData.passScore;
                 const pct   = Math.round((correctCount / total) * 100);
                 const passed = correctCount >= pass;
+                const challengeXP = passed ? pct : 0;
+                const reward = passed && window.ProfileXP
+                    ? window.ProfileXP.awardXPToCurrentUser(
+                        challengeXP,
+                        window.ProfileXP.buildRewardSource('challenge', goldTestData.id)
+                    )
+                    : null;
+                const awardedXP = reward?.xpAdded || 0;
 
                 resultsEl.innerHTML = `
                     <div class="results-screen">
@@ -410,6 +419,7 @@
                                 ? '🌟 Conquistaste o badge de Mestre da Fotossíntese!'
                                 : `Precisas de ${pass}/20 para passar. Tenta outra vez!`}
                         </p>
+                        ${passed ? `<p class="pass-message">⭐ ${awardedXP > 0 ? `Ganhaste +${awardedXP} XP no teu perfil.` : 'Este desafio já tinha atribuído XP ao teu perfil.'}</p>` : ''}
 
                         <div class="results-stats">
                             <div class="result-stat">
